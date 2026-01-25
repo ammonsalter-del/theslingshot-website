@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Slingshot | AI Startup Simulation</title>
+    <meta name="description" content="An open educational simulation for teaching entrepreneurship and technology venturing. Learn through play.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+        
+        /* Navigation */
+        nav {
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav h1 {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            color: white;
+        }
+        
+        .play-button {
+            background: #6366f1;
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .play-button:hover {
+            background: #4f46e5;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #4338ca 50%, #0f172a 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #a5b4fc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero .version {
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+        
+        .hero-content em {
+            color: #a5b4fc;
+        }
+        
+        .hero-highlight {
+            color: #c7d2fe;
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 4rem 2rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #334155;
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .feature p {
+            color: #64748b;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature ul {
+            color: #475569;
+            font-size: 0.9rem;
+            list-style-position: inside;
+        }
+        
+        /* Learning Section */
+        .learning {
+            background: #f8fafc;
+        }
+        
+        .learning-intro {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        
+        .learning-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .learning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .learning-box {
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 2px solid transparent;
+        }
+        
+        .learning-box.strategy {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+        }
+        
+        .learning-box.finance {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+        
+        .learning-box.venturing {
+            background: #faf5ff;
+            border-color: #e9d5ff;
+        }
+        
+        .learning-box.execution {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+        
+        .learning-box h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .learning-box ul {
+            list-style-position: inside;
+            color: #475569;
+        }
+        
+        .learning-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .challenge-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .challenge-box p:first-child {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .challenge-box p:last-child {
+            color: #78350f;
+        }
+        
+        /* Educators Section */
+        .educators {
+            background: linear-gradient(135deg, #064e3b 0%, #14532d 100%);
+            color: white;
+        }
+        
+        .educators h2 {
+            color: white;
+        }
+        
+        .educators-intro {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: #d1fae5;
+        }
+        
+        .educators-intro em {
+            color: #6ee7b7;
+        }
+        
+        .remix-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .remix-section h3 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .remix-section p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .remix-steps {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .remix-steps ol {
+            list-style-position: inside;
+            font-size: 1.1rem;
+        }
+        
+        .remix-steps li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #78350f;
+            margin: 1rem 0;
+        }
+        
+        .warning-box strong {
+            color: #92400e;
+        }
+        
+        .materials-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        .materials-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Citation */
+        .citation {
+            background: #f8fafc;
+        }
+        
+        .citation-box {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .citation-text {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 3rem 2rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section p,
+        .footer-section li {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #1e293b;
+            padding-top: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features,
+            .learning-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <h1>The Slingshot</h1>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#how-to-play">How to Play</a></li>
+                <li><a href="#educators">For Educators</a></li>
+                <li><a href="https://ammonsalter-del.github.io/The-Slingshot-Simulation/" target="_blank" class="play-button">▶ Play Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>The Slingshot</h1>
+            <p class="subtitle">An AI Startup Simulation</p>
+            <p class="version">Version 1.2 | January 2026</p>
+            
+            <div class="hero-content">
+                <h2>Can you build the next AI unicorn?</h2>
+                
+                <p>It's 2026. AI may be the defining technology of our era.</p>
+                
+                <p>Economists call it a potential <em>general purpose technology</em>—like steam, electricity, or computing—capable of transforming every sector. But GPTs don't apply themselves. The value lies in identifying and exploiting opportunities: discovering solutions that weren't possible before, disrupting established industries, creating entirely new markets.</p>
+                
+                <p>Across the UK, a new generation of startups is racing to capture this value. Some spin out from world-leading AI labs, pushing the frontier of what's possible. Others bring deep domain expertise—in healthcare, finance, logistics, creative industries—and see exactly where AI could be transformative. All face the same challenge: turning potential into profit before the window closes.</p>
+                
+                <p>Now it's your turn. Choose your venture, assemble your team, and chase the ultimate prize: a billion-dollar unicorn.</p>
+                
+                <p class="hero-highlight">The potential is enormous. So are the risks.<br>That's what makes it interesting—and that's how you'll learn.</p>
+            </div>
+            
+            <a href="https://ammonsalter-del.github.io/The-Slingshot-Simulation/" target="_blank" class="cta-button">Start Your Journey →</a>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section>
+        <div class="container">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-title">10-40 minutes</div>
+                    <div class="stat-desc">per game</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-title">Learn through play</div>
+                    <div class="stat-desc">Experience, failure, replay</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">🔬</div>
+                    <div class="stat-title">Technology venturing</div>
+                    <div class="stat-desc">Research-backed scenarios</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">🔄</div>
+                    <div class="stat-title">Highly replayable</div>
+                    <div class="stat-desc">Wide strategy variety</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="about">
+        <div class="container">
+            <h2>Game Features</h2>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🏭</div>
+                    <h3>8 AI Sectors</h3>
+                    <p>Choose from Healthcare, Robotics, Finance, Animation, Cybersecurity, Climate Tech, Legal Tech, or Education.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">Each sector has unique challenges, market dynamics, and strategic considerations.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🎭</div>
+                    <h3>12 Founder Types</h3>
+                    <p>From Academic Researcher to Serial Entrepreneur—each with different strengths and starting positions.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">Your background shapes your abilities, network, and initial resources.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>UK Location Choice</h3>
+                    <p>London, Cambridge, Edinburgh, Manchester, Bristol, or Oxford—each with unique characteristics.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">Location affects capital access, costs, academic connections, and ecosystem support.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <h3>Funding Negotiations</h3>
+                    <p>Bootstrap, crowdfunding, angels, VCs, CVCs—negotiate terms, equity, and control.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">Real term sheet decisions with lasting consequences for your ownership and runway.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>550+ Unique Events</h3>
+                    <p>Realistic scenarios drawn from startup experiences and technology venturing research.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">Team challenges, market opportunities, competitor moves, technical issues, and more.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🏃</div>
+                    <h3>3 AI Rival Companies</h3>
+                    <p>AI-controlled competitors race you to the same milestones—forcing strategic pivots.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">If rivals win first, the market shifts. Can you adapt and outpace them?</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Attention Points System</h3>
+                    <p>Limited attention across competing departments—choose carefully between goals and costs.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">You can't do everything at once. Strategic allocation is crucial.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🎮</div>
+                    <h3>3 Mini-Games</h3>
+                    <p>"Surprise and delight" moments—one aligned to each milestone stage.</p>
+                    <p style="font-size: 0.9rem; color: #64748b;">Unexpected gameplay variety keeps each run fresh and engaging.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Through Challenge -->
+    <section class="learning">
+        <div class="container">
+            <h2>Learn Technology Venturing Through Experience</h2>
+            
+            <div class="learning-intro">
+                <p>The Slingshot teaches through <strong>experiential learning</strong>—not lectures or cases, but by putting you in the founder's seat making real decisions under uncertainty.</p>
+                <p>Every aspect of the game is connected. Decisions in one area help or hinder others. The game engine includes some luck, but rewards approaches that balance different tensions and align resources with context.</p>
+            </div>
+
+            <div class="learning-grid">
+                <div class="learning-box strategy">
+                    <h3>🎯 Strategic Thinking</h3>
+                    <ul>
+                        <li>Interdependencies between technology, market, and finance</li>
+                        <li>Evaluating competing options under uncertainty</li>
+                        <li>Balancing tensions and aligning resources</li>
+                        <li>Stakeholder dynamics in technology commercialization</li>
+                    </ul>
+                </div>
+
+                <div class="learning-box finance">
+                    <h3>💰 Entrepreneurial Finance</h3>
+                    <ul>
+                        <li>Startup funding mechanisms and sources</li>
+                        <li>Equity dilution and cap table management</li>
+                        <li>Cash runway and burn rate dynamics</li>
+                        <li>Term sheet negotiations with investors</li>
+                    </ul>
+                </div>
+
+                <div class="learning-box venturing">
+                    <h3>🚀 Technology Venturing</h3>
+                    <ul>
+                        <li>Commercializing research and deep tech</li>
+                        <li>University spin-outs and IP considerations</li>
+                        <li>Grant applications and non-dilutive funding</li>
+                        <li>Balancing scientific rigor with commercial pressure</li>
+                    </ul>
+                </div>
+
+                <div class="learning-box execution">
+                    <h3>💪 Execution & Resilience</h3>
+                    <ul>
+                        <li>Strategic pivoting when conditions change</li>
+                        <li>Managing multiple concurrent priorities</li>
+                        <li>Learning from failure and iterating</li>
+                        <li>Autonomous decision-making under pressure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="challenge-box">
+                <p>⚡ The Challenge is the Point</p>
+                <p>Most players fail their first attempt—and that's by design. The game teaches through experience, failure, and replay. Each run reveals new strategic insights.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Play -->
+    <section id="how-to-play">
+        <div class="container">
+            <h2>How to Play</h2>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Getting Started</h3>
+                    <p>No installation required. Runs in any modern browser. Works best on desktop/laptop.</p>
+                    <p>Choose between quick tutorial (~3 min) or comprehensive walkthrough (~10 min). Guided play mode available for first-time players.</p>
+                </div>
+
+                <div class="feature">
+                    <h3>Founding Your Startup</h3>
+                    <p><strong>Choose your sector:</strong> 8 AI industries with unique dynamics</p>
+                    <p><strong>Select founder type:</strong> 12 backgrounds with different strengths</p>
+                    <p><strong>Pick location:</strong> 6 UK cities with distinct characteristics</p>
+                    <p><strong>Initial funding:</strong> Bootstrap, crowdfunding, or angels</p>
+                </div>
+
+                <div class="feature">
+                    <h3>Quarterly Gameplay</h3>
+                    <p><strong>Allocate attention:</strong> Limited points across departments</p>
+                    <p><strong>Respond to events:</strong> 550+ realistic scenarios</p>
+                    <p><strong>Make strategic choices:</strong> Pivoting, hiring, fundraising, product development</p>
+                    <p><strong>Race competitors:</strong> 3 AI rivals pursuing same milestones</p>
+                </div>
+
+                <div class="feature">
+                    <h3>Win Conditions</h3>
+                    <p><strong>Victory:</strong> Complete all three milestones before running out of cash</p>
+                    <p><strong>Your outcome:</strong> Final valuation × your ownership percentage</p>
+                    <p><strong>Learning:</strong> Most fail first attempt—that's expected and part of the process</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="https://ammonsalter-del.github.io/The-Slingshot-Simulation/" target="_blank" class="cta-button">▶ Play The Slingshot</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Educators -->
+    <section id="educators" class="educators">
+        <div class="container">
+            <h2>For Educators</h2>
+            
+            <p class="educators-intro">Innovation is often recombination. Fatboy Slim built a career on it—sampling, remixing, turning existing tracks into something entirely new. That's what we can do with teaching tools.</p>
+            
+            <p class="educators-intro">The Slingshot is a free, open AI startup simulation for teaching entrepreneurship—<em>vibe coded with LLMs</em>.</p>
+
+            <div class="remix-section">
+                <h3>🔧 Want to Adapt It? It's Easy.</h3>
+                
+                <p>Here's the thing: it is easy. No software skills needed. And no desire to learn them. Just describe what you want and the LLMs build it.</p>
+
+                <div class="remix-steps">
+                    <strong style="display: block; margin-bottom: 1rem;">How to Remix The Slingshot:</strong>
+                    <ol>
+                        <li>Download the HTML file from GitHub</li>
+                        <li>Upload it to Claude, GPT, or Gemini</li>
+                        <li>Tell it what you want to change</li>
+                        <li>Congratulations—you're now a game developer</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ One Warning:</strong> Coding is easy, debugging is hell. Budget time for hunting down the weird things that break.
+                </div>
+
+                <p style="margin-top: 1.5rem;">Would you make pasta by growing your own wheat? Start with The Slingshot and reshape it. That's how progress works.</p>
+                
+                <p>The code is open. Like Erdős with his proofs, this needs collaborators not followers. Someone in São Paulo might build on what you started in Stockholm.</p>
+                
+                <p><strong>A community of educators making better tools together, rather than each of us starting from scratch or paying for commercial simulations we can't adapt.</strong></p>
+
+                <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" target="_blank" class="materials-link">View on GitHub →</a>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; margin-top: 2rem;">
+                <h3 style="color: white; margin-bottom: 1rem;">Teaching Materials Available</h3>
+                <ul style="color: #d1fae5; list-style-position: inside; margin-bottom: 1.5rem;">
+                    <li>Comprehensive Teaching Guide (lesson plans for 1-week, 3-week, 10-week courses)</li>
+                    <li>Quick Start Guide for students</li>
+                    <li>Assessment resources and rubrics</li>
+                    <li>Discussion frameworks</li>
+                    <li>FAQ and troubleshooting</li>
+                </ul>
+                <p style="color: #d1fae5; margin-bottom: 1rem;"><strong>All materials are in the GitHub repository</strong> under the <code>/docs/</code> folder and available for free download.</p>
+                <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" target="_blank" class="materials-link">Download Teaching Materials →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citation -->
+    <section class="citation">
+        <div class="container">
+            <h2>How to Cite</h2>
+            
+            <div class="citation-box">
+                <div class="citation-text">
+Salter, A., Baruffaldi, S., & Bignone, F. (2026). The Slingshot: An AI Startup Simulation
+(Version 1.2) [Computer software]. https://github.com/ammonsalter-del/The-Slingshot-Simulation/
+                </div>
+                
+                <p style="margin-bottom: 1rem;"><strong>License:</strong> Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</p>
+                
+                <p style="color: #64748b; margin-bottom: 0.5rem;">You are free to share and adapt with attribution, for non-commercial use, under the same license.</p>
+            </div>
+
+            <div class="citation-box">
+                <h3>Team</h3>
+                <p><strong>Lead Author:</strong> Ammon Salter (Warwick Business School)</p>
+                <p><strong>Co-Investigators:</strong> Stefano Baruffaldi (Politecnico di Milano), Federico Bignone (Warwick Business School)</p>
+                <p><strong>Contributors:</strong> 15+ beta testers from Warwick, Imperial, ESMT, Bath, Bristol</p>
+                <p><strong>AI Development Assistants:</strong> Claude (Anthropic), Gemini (Google), ChatGPT & GPT-5 (OpenAI)</p>
+                <p style="margin-top: 1rem;"><strong>Funding:</strong> ESRC Grant ES/X003949/1 - "Profiting from Science"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>The Slingshot</h3>
+                <p>An open educational simulation for teaching entrepreneurship and technology venturing.</p>
+                <p style="margin-top: 1rem;">Version 1.2 | January 2026</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" target="_blank">GitHub Repository</a></li>
+                    <li><a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation/tree/main/docs" target="_blank">Teaching Materials</a></li>
+                    <li><a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation/blob/main/README.md" target="_blank">Documentation</a></li>
+                    <li><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">License (CC BY-NC-SA 4.0)</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Ammon Salter<br>
+                Warwick Business School<br>
+                The University of Warwick</p>
+                <p style="margin-top: 1rem;">ESRC Grant: ES/X003949/1</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            © 2026 Ammon Salter, Stefano Baruffaldi, Federico Bignone
+        </div>
+    </footer>
+</body>
+</html>
