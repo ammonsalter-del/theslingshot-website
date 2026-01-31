@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Teaching resources for The Slingshot AI startup simulation - learning objectives, implementation approaches, teaching materials, and classroom integration guides.">
+  <title>For Educators - The Slingshot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .bg-logo-gradient {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 50%, #1a1a2e 100%);
+    }
+  </style>
+</head>
+<body class="bg-logo-gradient min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="bg-slate-900/50 backdrop-blur-md border-b border-white/10 sticky top-0 z-50" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="text-xl font-bold text-white hover:text-indigo-300 transition-colors">The Slingshot</a>
+        <button id="menuBtn" class="md:hidden text-white p-2" aria-label="Toggle menu" aria-expanded="false">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <div class="hidden md:flex gap-6 text-sm">
+          <a href="index.html" class="text-slate-300 hover:text-white transition-colors">Home</a>
+          <a href="about.html" class="text-slate-300 hover:text-white transition-colors">About</a>
+          <a href="uk-ecosystem.html" class="text-slate-300 hover:text-white transition-colors">UK AI Ecosystem</a>
+          <a href="screenshots.html" class="text-slate-300 hover:text-white transition-colors">Screenshots</a>
+          <a href="how-to-play.html" class="text-slate-300 hover:text-white transition-colors">How to Play</a>
+          <a href="educators.html" class="text-indigo-300" aria-current="page">For Educators</a>
+        </div>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2 border-t border-white/10 pt-4 space-y-3">
+        <a href="index.html" class="block text-slate-300 hover:text-white transition-colors">Home</a>
+        <a href="about.html" class="block text-slate-300 hover:text-white transition-colors">About</a>
+        <a href="uk-ecosystem.html" class="block text-slate-300 hover:text-white transition-colors">UK AI Ecosystem</a>
+        <a href="screenshots.html" class="block text-slate-300 hover:text-white transition-colors">Screenshots</a>
+        <a href="how-to-play.html" class="block text-slate-300 hover:text-white transition-colors">How to Play</a>
+        <a href="educators.html" class="block text-indigo-300" aria-current="page">For Educators</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+
+    <h1 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">For Educators</h1>
+
+    <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 mb-8">
+      <p class="text-slate-300 leading-relaxed mb-4">
+        The Slingshot is designed for educators teaching entrepreneurship, innovation management, strategy, and technology commercialization. The simulation provides students with hands-on experience navigating the challenges of building an AI startup, from founding through scaling.
+      </p>
+      <p class="text-slate-300 leading-relaxed">
+        Free, open-source, and grounded in real startup experiences, The Slingshot can be integrated into courses at undergraduate, postgraduate, and executive education levels.
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Learning Objectives</h2>
+
+    <div class="space-y-4 mb-8">
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <h3 class="text-lg font-bold text-indigo-200 mb-2">🎯 Strategic Decision-Making</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Students learn to make resource allocation decisions under uncertainty and time pressure. They balance competing priorities across product development, customer acquisition, operations, and team building while managing limited cash runway.
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <h3 class="text-lg font-bold text-indigo-200 mb-2">💰 Entrepreneurial Finance</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Students experience venture funding dynamics firsthand: evaluating funding options, understanding dilution and valuation, negotiating with investors, and choosing between bootstrapping and venture capital paths.
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <h3 class="text-lg font-bold text-indigo-200 mb-2">🚀 Technology Commercialization</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Students navigate the specific challenges of commercializing AI technology: managing technical risk, achieving product-market fit in fast-moving sectors, and competing in markets where technology capabilities evolve rapidly.
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <h3 class="text-lg font-bold text-indigo-200 mb-2">⚖️ Trade-offs and Constraints</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Students grapple with fundamental entrepreneurial trade-offs: growth vs. profitability, product quality vs. speed to market, equity vs. control, and short-term survival vs. long-term positioning.
+        </p>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Concepts Covered</h2>
+
+    <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 mb-8">
+      <p class="text-slate-300 leading-relaxed mb-6">
+        The simulation exposes students to 20 core startup and innovation concepts. Click any concept to learn more.
+      </p>
+
+      <div class="space-y-3">
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Cash Management &amp; Runway
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            How much cash you have determines how long your startup survives. Runway is the number of quarters you can operate before running out of money&mdash;managing it is the most fundamental skill in entrepreneurship.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Burn Rate
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            The rate at which your startup spends cash each quarter. Balancing burn rate against growth ambitions is a constant tension&mdash;spend too little and you fall behind competitors, spend too much and you run out of runway.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Valuation (Pre-Money vs. Post-Money)
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Valuation determines what your company is worth and how much equity you give away when raising capital. Pre-money valuation is your company's value before investment; post-money includes the new capital. Higher valuations mean less dilution for founders.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Equity &amp; Dilution
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Every funding round and equity grant dilutes existing shareholders. Students learn how co-founder splits, investor rounds, and employee option pools interact to shape ownership over time&mdash;and why protecting equity matters.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Cap Table
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            The capitalisation table tracks who owns what percentage of your company. The simulation maintains a live cap table that evolves with each funding round, hire, and equity decision, showing students how ownership structures develop.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Bootstrapping vs. Venture Capital
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Should you self-fund and grow organically, or raise venture capital to scale quickly? Each path has trade-offs around control, growth speed, risk, and the type of company you can build.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Product-Market Fit
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            The degree to which your product satisfies real market demand. Achieving product-market fit is the single most important milestone for an early-stage startup&mdash;without it, growth spending is wasted.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Strategic Pivots
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            When your current strategy isn't working, pivoting means fundamentally changing direction&mdash;your target market, product, or business model. The simulation forces students to recognise when persistence becomes stubbornness.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Resource Allocation &amp; Opportunity Cost
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            With limited cash each quarter, every pound spent on R&amp;D is a pound not spent on marketing or hiring. Students learn that resource allocation is about trade-offs, and that the cost of any choice includes the alternatives forgone.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Competitive Positioning
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Where you stand relative to competitors determines pricing power, customer acquisition, and investor interest. Students navigate markets with AI rivals, incumbents, and new entrants, learning to differentiate and defend their position.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Team Building &amp; Hiring
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Hiring the right people at the right time is critical. Students recruit co-founders and department heads, learning how team composition affects product development, sales capability, and organisational capacity.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Salary vs. Equity Trade-offs
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            When hiring, you can offer higher salary (preserving equity but increasing burn rate) or more equity (conserving cash but diluting ownership). This trade-off shapes both your finances and your team's incentive alignment.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Team Morale &amp; Culture
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            A motivated team performs better and stays longer. Decisions around workload, compensation, and company direction all affect morale&mdash;and low morale can trigger departures, reduced productivity, and slower progress.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Revenue &amp; ARR
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Annual recurring revenue (ARR) is the key metric investors use to gauge traction in software businesses. Growing revenue signals product-market fit and reduces dependence on external funding.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Business Models
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            How you monetise your AI product&mdash;B2B SaaS subscriptions, enterprise licensing, consumer freemium, or platform models. Choosing and adapting your business model affects revenue potential, sales cycles, and scalability.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Exit Strategies
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Acquisition, IPO, or sustainable independence&mdash;every startup eventually faces the question of its endgame. Exit strategy shapes fundraising decisions, growth targets, and how you position the company to potential acquirers or public markets.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Founder-Market Fit
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            The alignment between a founder's background and the market they're entering. Students choose from different founder profiles&mdash;technical, commercial, or domain expert&mdash;each bringing advantages and blind spots to the venture.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Research Commercialisation
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Turning cutting-edge AI research into viable products. Students experience the challenges of bridging the gap between academic innovation and market-ready solutions&mdash;including technology readiness, user needs, and go-to-market timing.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            R&amp;D Investment &amp; Science Strategy
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            How much to invest in research and development, and when. Students decide whether to pursue incremental improvements or breakthrough capabilities, balancing the long-term payoff of R&amp;D against immediate commercial pressures.
+          </div>
+        </details>
+
+        <details class="group bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <summary class="cursor-pointer px-5 py-3 text-indigo-200 font-medium text-sm hover:bg-white/5 transition-colors list-none flex items-center justify-between">
+            Innovation Grants &amp; Non-Dilutive Funding
+            <svg class="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-4 text-slate-400 text-sm leading-relaxed">
+            Government and institutional grants provide funding without giving up equity. Students weigh the benefits of non-dilutive capital against the effort required to apply and the constraints that often come with grant funding.
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Implementation Approaches</h2>
+
+    <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 mb-8">
+      <p class="text-slate-300 leading-relaxed mb-6">
+        The Slingshot is flexible enough to support multiple pedagogical approaches:
+      </p>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="text-white font-bold mb-2">In-Class Activity (60-90 minutes)</h4>
+          <p class="text-slate-400 text-sm mb-2">Students play individually or in small groups during class time. Follow with structured debrief comparing strategies and outcomes.</p>
+          <p class="text-slate-400 text-sm">Best for: Illustrating specific concepts like resource allocation or funding decisions</p>
+        </div>
+
+        <div class="border-t border-white/10 pt-6">
+          <h4 class="text-white font-bold mb-2">Assignment (Out of Class)</h4>
+          <p class="text-slate-400 text-sm mb-2">Students play on their own time and submit reflections on their decisions, strategies, and outcomes.</p>
+          <p class="text-slate-400 text-sm">Best for: Deeper engagement with strategy formulation and reflection on entrepreneurial decision-making</p>
+        </div>
+
+        <div class="border-t border-white/10 pt-6">
+          <h4 class="text-white font-bold mb-2">Team Competition</h4>
+          <p class="text-slate-400 text-sm mb-2">Teams compete to achieve the best outcomes. Create leaderboards and have teams present their strategies and results.</p>
+          <p class="text-slate-400 text-sm">Best for: Generating energy and engagement, encouraging strategic thinking and peer learning</p>
+        </div>
+
+        <div class="border-t border-white/10 pt-6">
+          <h4 class="text-white font-bold mb-2">Case Study Complement</h4>
+          <p class="text-slate-400 text-sm mb-2">Use alongside traditional case studies. Students play the simulation then discuss real startup cases, comparing their choices to actual entrepreneur decisions.</p>
+          <p class="text-slate-400 text-sm">Best for: Connecting experiential learning with real-world analysis</p>
+        </div>
+
+        <div class="border-t border-white/10 pt-6">
+          <h4 class="text-white font-bold mb-2">Multiple Rounds</h4>
+          <p class="text-slate-400 text-sm mb-2">Students play multiple times with different sectors or strategies, then compare outcomes and reflect on what they learned.</p>
+          <p class="text-slate-400 text-sm">Best for: Exploring how context shapes strategy and understanding path dependencies</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Teaching Materials</h2>
+
+    <div class="space-y-4 mb-8">
+      <div class="bg-indigo-500/10 backdrop-blur rounded-xl p-6 border border-indigo-500/30">
+        <h4 class="font-bold text-indigo-300 mb-2">📋 Facilitator Guide</h4>
+        <p class="text-slate-400 text-sm mb-3">Complete guide for running the simulation in different class formats, including suggested discussion questions and debrief frameworks.</p>
+        <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" class="text-indigo-300 hover:text-white text-sm transition-colors">View on GitHub →</a>
+      </div>
+
+      <div class="bg-emerald-500/10 backdrop-blur rounded-xl p-6 border border-emerald-500/30">
+        <h4 class="font-bold text-emerald-300 mb-2">💡 Assignment Templates</h4>
+        <p class="text-slate-400 text-sm mb-3">Ready-to-use assignment prompts for reflection papers, strategy analyses, and team presentations.</p>
+        <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" class="text-emerald-300 hover:text-white text-sm transition-colors">View on GitHub →</a>
+      </div>
+
+      <div class="bg-purple-500/10 backdrop-blur rounded-xl p-6 border border-purple-500/30">
+        <h4 class="font-bold text-purple-300 mb-2">📊 Assessment Rubrics</h4>
+        <p class="text-slate-400 text-sm mb-3">Evaluation frameworks for grading student reflections, strategy justifications, and learning demonstrations.</p>
+        <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" class="text-purple-300 hover:text-white text-sm transition-colors">View on GitHub →</a>
+      </div>
+
+      <div class="bg-amber-500/10 backdrop-blur rounded-xl p-6 border border-amber-500/30">
+        <h4 class="font-bold text-amber-300 mb-2">🎓 Learning Module</h4>
+        <p class="text-slate-400 text-sm mb-3">Complete course module including pre-simulation reading, in-class activities, and post-simulation debrief.</p>
+        <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" class="text-amber-300 hover:text-white text-sm transition-colors">View on GitHub →</a>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Technical Requirements</h2>
+
+    <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 mb-8">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h4 class="text-white font-bold mb-2">✅ Simple Setup</h4>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li>• Web browser only (Chrome, Firefox, Safari, Edge)</li>
+            <li>• No installation required</li>
+            <li>• No student accounts needed</li>
+            <li>• Works on laptops, tablets, desktops</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-2">⏱️ Time Commitment</h4>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li>• 25-40 minutes to complete one game</li>
+            <li>• 10-15 minutes for brief debrief</li>
+            <li>• 30-45 minutes for deep debrief</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Social & Collaborative Learning</h2>
+
+    <div class="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur rounded-2xl p-8 border border-indigo-500/30 mb-8">
+      <p class="text-slate-300 leading-relaxed mb-6">
+        The Slingshot is designed to spark conversation, debate, and shared learning. While students can play individually, the richest learning often emerges when students engage socially with the simulation.
+      </p>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="text-indigo-200 font-bold mb-3">👥 Team Play & Discussion</h4>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">
+            Students can play in pairs or small groups (2-4 people), making decisions together. This creates natural opportunities for debate about strategy, risk tolerance, and priorities. Groups often discover they have different intuitions about what matters most—and these differences drive learning.
+          </p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            After playing, teams can present their strategies and outcomes to the class, explaining their choices and what they learned. Comparing different approaches reveals there's no single "right" path to success.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-indigo-200 font-bold mb-3">🎮 Interactive Mini-Games</h4>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">
+            The simulation includes three interactive mini-games that create memorable, hands-on experiences with key business activities:
+          </p>
+          <ul class="space-y-3 text-slate-400 text-sm">
+            <li>
+              <strong class="text-slate-300">🎪 Conference:</strong> Work your booth at an industry conference. Click on delegates walking by, use swag and coffee to attract attention, run demos for serious prospects. Learn about budget management and lead generation under time pressure.
+            </li>
+            <li>
+              <strong class="text-slate-300">🎤 Investor Pitch:</strong> Deliver a 30-second pitch to venture capitalists. Keep the attention meter high, time your demo for maximum impact, read investor reactions. Experience the intensity of pitching for funding.
+            </li>
+            <li>
+              <strong class="text-slate-300">🚀 Demo Day:</strong> You have 60 seconds as visitors approach your booth. Engage leads to see their value, match offers to preferences, choose wisely between quick interactions and expensive demos. Practice prioritizing high-value opportunities.
+            </li>
+          </ul>
+          <p class="text-slate-400 text-sm leading-relaxed mt-3">
+            These mini-games make abstract concepts tangible and create memorable decision moments that students can reflect on during debrief sessions.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-indigo-200 font-bold mb-3">💬 Sharing Experiences</h4>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Create a shared class experience by having students play the same sectors or compare outcomes across different sectors. Students learn as much from seeing what happened to others as from their own journey. The personalized end-game reports provide concrete starting points for these discussions.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-indigo-200 font-bold mb-3">🏆 Friendly Competition</h4>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            While not the primary goal, light competition can boost engagement. Create leaderboards by valuation, revenue, or other metrics. Students enjoy comparing results and understanding why different strategies led to different outcomes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Research Foundation</h2>
+
+    <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 mb-8">
+      <p class="text-slate-300 leading-relaxed mb-4">
+        The Slingshot was developed as part of an ESRC-funded research project (ES/X003949/1) exploring entrepreneurship education and innovation management. The simulation is grounded in:
+      </p>
+      <ul class="space-y-2 text-slate-300 text-sm mb-4">
+        <li class="flex gap-2"><span class="text-indigo-400">•</span> <span>Analysis of 550+ real startup events and decision points</span></li>
+        <li class="flex gap-2"><span class="text-indigo-400">•</span> <span>Research on AI sector dynamics and competitive patterns</span></li>
+        <li class="flex gap-2"><span class="text-indigo-400">•</span> <span>Studies of venture funding processes and term sheet structures</span></li>
+        <li class="flex gap-2"><span class="text-indigo-400">•</span> <span>Empirical findings on early-stage team formation and dynamics</span></li>
+      </ul>
+      <p class="text-slate-300 leading-relaxed">
+        Developed by Ammon Salter (University of Warwick), Stefano Baruffaldi (Politecnico di Milano), and Federico Bignone (Politecnico di Milano).
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Getting Started</h2>
+
+    <div class="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur rounded-2xl p-8 border border-indigo-500/30 mb-8">
+      <h3 class="text-xl font-bold text-white mb-4">Ready to use The Slingshot in your course?</h3>
+      <div class="space-y-4 text-slate-300 text-sm">
+        <div class="flex gap-3">
+          <span class="text-indigo-400">1.</span>
+          <span>Play the simulation yourself to understand the experience</span>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-indigo-400">2.</span>
+          <span>Review the facilitator guide and teaching materials</span>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-indigo-400">3.</span>
+          <span>Choose your implementation approach and adapt materials</span>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-indigo-400">4.</span>
+          <span>Share the game link with students and run your session</span>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-indigo-400">5.</span>
+          <span>Share feedback with us to help improve the simulation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="https://ammonsalter-del.github.io/The-Slingshot-Simulation/" class="px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all transform hover:scale-105 text-center">
+        Try the Simulation
+      </a>
+      <a href="https://github.com/ammonsalter-del/The-Slingshot-Simulation" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/20 transition-all text-center">
+        View on GitHub
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 mt-16">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+      <div class="text-center text-slate-400 text-sm space-y-2">
+        <p class="text-slate-300 font-medium">&copy; 2026 Ammon Salter, Stefano Baruffaldi, Federico Bignone</p>
+        <p>Ammon Salter (Warwick Business School) &middot; Stefano Baruffaldi (Politecnico di Milano) &middot; Federico Bignone (Warwick Business School)</p>
+        <p class="text-slate-500 text-xs">
+          Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline">CC BY-NC-SA 4.0</a> &middot;
+          ESRC Grant ES/X003949/1
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      const menu = document.getElementById('mobileMenu');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      menu.classList.toggle('hidden');
+      this.setAttribute('aria-expanded', !expanded);
+    });
+  </script>
+</body>
+</html>
