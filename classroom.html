@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare your startup journey in The Slingshot. Educators: set up a class session in under a minute. Players: opt in when you start the game and see how you compare.">
+  <title>Trajectory - The Slingshot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .bg-logo-gradient {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 50%, #1a1a2e 100%);
+    }
+  </style>
+</head>
+<body class="bg-logo-gradient min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="bg-slate-900/50 backdrop-blur-md border-b border-white/10 sticky top-0 z-50" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="text-xl font-bold text-white hover:text-indigo-300 transition-colors">The Slingshot</a>
+        <button id="menuBtn" class="md:hidden text-white p-2" aria-label="Toggle menu" aria-expanded="false">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <div class="hidden md:flex gap-6 text-sm">
+          <a href="index.html" class="text-slate-300 hover:text-white transition-colors">Home</a>
+          <a href="about.html" class="text-slate-300 hover:text-white transition-colors">About</a>
+          <a href="uk-ecosystem.html" class="text-slate-300 hover:text-white transition-colors">UK AI Ecosystem</a>
+          <a href="screenshots.html" class="text-slate-300 hover:text-white transition-colors">Screenshots</a>
+          <a href="how-to-play.html" class="text-slate-300 hover:text-white transition-colors">How to Play</a>
+          <a href="classroom.html" class="text-indigo-300" aria-current="page">Trajectory</a>
+          <a href="educators.html" class="text-slate-300 hover:text-white transition-colors">For Educators</a>
+        </div>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2 border-t border-white/10 pt-4 space-y-3">
+        <a href="index.html" class="block text-slate-300 hover:text-white transition-colors">Home</a>
+        <a href="about.html" class="block text-slate-300 hover:text-white transition-colors">About</a>
+        <a href="uk-ecosystem.html" class="block text-slate-300 hover:text-white transition-colors">UK AI Ecosystem</a>
+        <a href="screenshots.html" class="block text-slate-300 hover:text-white transition-colors">Screenshots</a>
+        <a href="how-to-play.html" class="block text-slate-300 hover:text-white transition-colors">How to Play</a>
+        <a href="classroom.html" class="block text-indigo-300" aria-current="page">Trajectory</a>
+        <a href="educators.html" class="block text-slate-300 hover:text-white transition-colors">For Educators</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-2xl mx-auto px-4 py-12">
+
+    <!-- Page Title -->
+    <h1 class="text-4xl md:text-5xl font-black text-white mb-2 tracking-tight">Trajectory</h1>
+    <p class="text-indigo-300 text-lg font-medium mb-2">Compare your startup journey</p>
+    <p class="text-slate-400 mb-8">When you start the game, you can opt in to benchmarking. At the end, you'll see how your choices and outcomes compare to other players at your level. Educators can also set up class sessions for group-level insights.</p>
+
+    <!-- How it works -->
+    <div class="bg-white/5 backdrop-blur rounded-2xl p-6 border border-white/10 mb-8">
+      <h2 class="text-lg font-bold text-white mb-4">How it works</h2>
+      <div class="space-y-4 text-sm">
+        <div class="flex gap-4">
+          <div class="text-indigo-400 font-bold text-lg leading-tight w-6 shrink-0 text-center">1</div>
+          <div>
+            <span class="text-white font-medium">Players opt in at the start of the game</span>
+            <p class="text-slate-400 mt-0.5">Choose to benchmark yourself, pick your level and a nickname. If your educator gave you a join code, enter it here too. Or just skip this and play without benchmarking — it's entirely optional.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="text-indigo-400 font-bold text-lg leading-tight w-6 shrink-0 text-center">2</div>
+          <div>
+            <span class="text-white font-medium">Play the game as normal</span>
+            <p class="text-slate-400 mt-0.5">Nothing changes about gameplay. Your choices and outcomes are recorded anonymously in the background.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="text-indigo-400 font-bold text-lg leading-tight w-6 shrink-0 text-center">3</div>
+          <div>
+            <span class="text-white font-medium">See your trajectory at the end</span>
+            <p class="text-slate-400 mt-0.5">When the game ends, you'll see how your choices (founder type, sector, location, funding path) and outcomes (milestones, funding, valuation, equity) compare to all other players at your level.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- For Educators callout -->
+    <div class="bg-indigo-950/30 rounded-2xl p-6 border border-indigo-500/20 mb-8">
+      <h2 class="text-lg font-bold text-white mb-2">For educators</h2>
+      <p class="text-slate-400 text-sm mb-3">Create a class session below to get a 6-character join code. Share it with your students — they enter it when they start the game. You can then come back here to see how your class did as a group, what choices were most popular, and how your class compares to other classes at the same level.</p>
+      <p class="text-slate-400 text-sm">Set up takes under a minute. No accounts, no software, no personal data collected.</p>
+    </div>
+
+    <!-- Tab Buttons -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      <button id="tabCreate" onclick="showTab('create')" class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-indigo-600 text-white">Create Class Session</button>
+      <button id="tabResults" onclick="showTab('results')" class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white/10 text-slate-300 hover:bg-white/20">View Class Results</button>
+      <button id="tabMyGame" onclick="showTab('mygame')" class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white/10 text-slate-300 hover:bg-white/20">Look Up My Game</button>
+    </div>
+
+    <!-- ==================== MY GAME TAB (solo player lookup) ==================== -->
+    <div id="mygameTab" class="hidden">
+      <form id="mygameForm" onsubmit="lookupMyGame(event)" class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 space-y-6">
+
+        <p class="text-slate-400 text-sm">Enter the nickname you used when you played to see how your choices and outcomes compare to other players at your level.</p>
+
+        <div>
+          <label for="myNickname" class="block text-sm font-medium text-slate-300 mb-2">Your nickname</label>
+          <input type="text" id="myNickname" required placeholder="The nickname you chose in the game"
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+        </div>
+
+        <div>
+          <label for="myLevel" class="block text-sm font-medium text-slate-300 mb-2">Your level</label>
+          <select id="myLevel" required
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+            <option value="" disabled selected>Select level</option>
+            <option value="ug">Undergraduate</option>
+            <option value="masters">Masters</option>
+            <option value="mba">MBA</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <button type="submit" id="mygameBtn"
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg">
+          Find My Game
+        </button>
+
+        <div id="mygameError" class="hidden text-red-400 text-sm text-center"></div>
+      </form>
+
+      <!-- Solo Results Display -->
+      <div id="mygameDisplay" class="hidden space-y-6">
+
+        <!-- Player summary card -->
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20">
+          <h2 id="myGameTitle" class="text-2xl font-bold text-white mb-1"></h2>
+          <p id="myGameMeta" class="text-slate-400 text-sm mb-6"></p>
+
+          <div class="grid grid-cols-4 gap-3">
+            <div class="text-center">
+              <div id="myStatTurns" class="text-3xl font-bold text-white">-</div>
+              <div class="text-xs text-slate-400">Quarters</div>
+            </div>
+            <div class="text-center">
+              <div id="myStatMilestones" class="text-3xl font-bold text-emerald-400">-</div>
+              <div class="text-xs text-slate-400">Milestones</div>
+            </div>
+            <div class="text-center">
+              <div id="myStatVal" class="text-3xl font-bold text-indigo-300">-</div>
+              <div class="text-xs text-slate-400">Final Val</div>
+            </div>
+            <div class="text-center">
+              <div id="myStatOutcome" class="text-2xl font-bold">-</div>
+              <div class="text-xs text-slate-400">Outcome</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Choices vs All at Level -->
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+          <h3 class="text-lg font-bold text-white mb-4">Your Choices vs. All <span id="myChoicesLevel" class="text-indigo-300"></span> Players</h3>
+          <div id="myChoicesContent" class="space-y-5"></div>
+          <p id="myChoicesEmpty" class="hidden text-slate-500 text-sm">No choice data recorded for this game.</p>
+        </div>
+
+        <!-- My Outcomes vs All at Level -->
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+          <h3 class="text-lg font-bold text-white mb-4">Your Outcomes vs. All <span id="myBenchLevel" class="text-indigo-300"></span> Players</h3>
+          <div id="myBenchmarkBars" class="space-y-4"></div>
+          <p id="myBenchmarkEmpty" class="hidden text-slate-500 text-sm">Not enough benchmark data yet (need at least 10 completed games at this level).</p>
+        </div>
+
+        <button onclick="backToMygameForm()" class="text-sm text-slate-400 hover:text-white transition-colors underline">Look up another game</button>
+      </div>
+    </div>
+
+    <!-- ==================== CREATE SESSION TAB ==================== -->
+    <div id="createTab">
+      <form id="createForm" onsubmit="createSession(event)" class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 space-y-6">
+
+        <div>
+          <label for="instructor" class="block text-sm font-medium text-slate-300 mb-2">Your name or email</label>
+          <input type="text" id="instructor" required placeholder="e.g. Dr Smith or j.smith@university.ac.uk"
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+          <p class="text-xs text-slate-500 mt-1">Not an account — just so you can find your sessions later.</p>
+        </div>
+
+        <div>
+          <label for="sessionName" class="block text-sm font-medium text-slate-300 mb-2">Session name</label>
+          <input type="text" id="sessionName" required placeholder="e.g. Entrepreneurship Spring 2026"
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+        </div>
+
+        <div>
+          <label for="level" class="block text-sm font-medium text-slate-300 mb-2">Student level</label>
+          <select id="level" required
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+            <option value="" disabled selected>Select level</option>
+            <option value="ug">Undergraduate</option>
+            <option value="masters">Masters</option>
+            <option value="mba">MBA</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-slate-300 mb-2">Session password</label>
+          <input type="password" id="password" required minlength="4" placeholder="Choose a password to access results later"
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+          <p class="text-xs text-slate-500 mt-1">You'll need this to view your class results. Keep it simple — this isn't a bank.</p>
+        </div>
+
+        <button type="submit" id="createBtn"
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg">
+          Create Session
+        </button>
+
+        <div id="createError" class="hidden text-red-400 text-sm text-center"></div>
+      </form>
+
+      <!-- Success State (hidden until session created) -->
+      <div id="createSuccess" class="hidden bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 text-center space-y-6">
+        <div class="text-emerald-400 text-lg font-medium">Session created!</div>
+        <div>
+          <div class="text-slate-400 text-sm mb-2">Share this join code with your students:</div>
+          <div id="joinCodeDisplay" class="text-6xl font-black text-white tracking-widest py-4"></div>
+        </div>
+        <div class="text-slate-400 text-sm space-y-1">
+          <p>Students enter this code when they start the game.</p>
+          <p>When they finish, they'll see how they compare to all <span id="levelLabel" class="text-indigo-300 font-medium"></span> players.</p>
+        </div>
+        <div class="pt-4 border-t border-white/10">
+          <p class="text-slate-500 text-xs">Come back to this page anytime and use "View Results" to see how your class did.</p>
+        </div>
+        <button onclick="resetCreate()" class="text-sm text-slate-400 hover:text-white transition-colors underline">Create another session</button>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW RESULTS TAB ==================== -->
+    <div id="resultsTab" class="hidden">
+      <form id="resultsForm" onsubmit="viewResults(event)" class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 space-y-6">
+
+        <div>
+          <label for="resInstructor" class="block text-sm font-medium text-slate-300 mb-2">Your name or email</label>
+          <input type="text" id="resInstructor" required placeholder="Same as when you created the session"
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+        </div>
+
+        <div>
+          <label for="resPassword" class="block text-sm font-medium text-slate-300 mb-2">Session password</label>
+          <input type="password" id="resPassword" required
+            class="w-full bg-slate-800/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400">
+        </div>
+
+        <button type="submit" id="resultsBtn"
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg">
+          View Results
+        </button>
+
+        <div id="resultsError" class="hidden text-red-400 text-sm text-center"></div>
+      </form>
+
+      <!-- Results Display (hidden until loaded) -->
+      <div id="resultsDisplay" class="hidden space-y-6">
+
+        <!-- Session Selector (if multiple sessions) -->
+        <div id="sessionSelector" class="hidden">
+          <label class="block text-sm font-medium text-slate-300 mb-2">Your sessions:</label>
+          <div id="sessionList" class="space-y-2"></div>
+        </div>
+
+        <!-- Session Summary -->
+        <div id="sessionSummary" class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20">
+          <h2 id="summaryTitle" class="text-2xl font-bold text-white mb-1"></h2>
+          <p id="summaryMeta" class="text-slate-400 text-sm mb-6"></p>
+
+          <div class="grid grid-cols-5 gap-3 mb-6">
+            <div class="text-center">
+              <div id="statJoined" class="text-3xl font-bold text-white">-</div>
+              <div class="text-xs text-slate-400">Joined</div>
+            </div>
+            <div class="text-center">
+              <div id="statFinished" class="text-3xl font-bold text-emerald-400">-</div>
+              <div class="text-xs text-slate-400">Finished</div>
+            </div>
+            <div class="text-center">
+              <div id="statAvgVal" class="text-3xl font-bold text-indigo-300">-</div>
+              <div class="text-xs text-slate-400">Avg Valuation</div>
+            </div>
+            <div class="text-center">
+              <div id="statAvgTime" class="text-3xl font-bold text-amber-300">-</div>
+              <div class="text-xs text-slate-400">Avg Play Time</div>
+            </div>
+            <div class="text-center">
+              <div id="statEngagement" class="text-3xl font-bold text-emerald-300">-</div>
+              <div class="text-xs text-slate-400">Avg Engagement</div>
+            </div>
+          </div>
+
+          <!-- Engagement distribution -->
+          <div id="engagementDist" class="hidden border-t border-white/10 pt-4 mt-2">
+            <div class="text-xs text-slate-400 mb-2">Engagement distribution</div>
+            <div class="flex gap-1 items-end h-12" id="engagementBars"></div>
+            <div class="flex gap-1 mt-1">
+              <div class="flex-1 text-center text-xs text-slate-500">1</div>
+              <div class="flex-1 text-center text-xs text-slate-500">2</div>
+              <div class="flex-1 text-center text-xs text-slate-500">3</div>
+              <div class="flex-1 text-center text-xs text-slate-500">4</div>
+              <div class="flex-1 text-center text-xs text-slate-500">5</div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-600 mt-0.5">
+              <span>Clicking through</span>
+              <span>Deep engagement</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Table -->
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20 overflow-x-auto">
+          <h3 class="text-lg font-bold text-white mb-4">Students</h3>
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-slate-400 border-b border-white/10">
+                <th class="text-left py-2 px-2">Nickname</th>
+                <th class="text-right py-2 px-2">Quarters</th>
+                <th class="text-right py-2 px-2">Milestones</th>
+                <th class="text-right py-2 px-2">Valuation</th>
+                <th class="text-left py-2 px-2">Outcome</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody" class="text-white">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Class Choices vs All at Level -->
+        <div id="choicesSection" class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+          <h3 class="text-lg font-bold text-white mb-4">What Your Class Chose vs. All <span id="choicesLevel" class="text-indigo-300"></span> Players</h3>
+          <div id="choicesContent" class="space-y-5"></div>
+          <p id="choicesEmpty" class="hidden text-slate-500 text-sm">No completed games with choice data yet.</p>
+        </div>
+
+        <!-- Class Outcomes vs All at Level -->
+        <div id="benchmarkSection" class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+          <h3 class="text-lg font-bold text-white mb-4">How Your Class Performed vs. All <span id="benchLevel" class="text-indigo-300"></span> Players</h3>
+          <div id="benchmarkBars" class="space-y-4"></div>
+          <p id="benchmarkEmpty" class="hidden text-slate-500 text-sm">Not enough benchmark data yet (need at least 10 completed games at this level).</p>
+        </div>
+
+        <!-- Class Ranking -->
+        <div id="rankingSection" class="hidden bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+          <h3 class="text-lg font-bold text-white mb-4">Your Class Among All <span id="rankLevel" class="text-indigo-300"></span> Classes</h3>
+          <div id="rankingContent" class="space-y-3"></div>
+        </div>
+
+        <!-- Export -->
+        <div class="text-center">
+          <button onclick="exportCSV()" class="text-sm text-slate-400 hover:text-white transition-colors underline">Export as CSV</button>
+        </div>
+
+        <button onclick="backToResultsForm()" class="text-sm text-slate-400 hover:text-white transition-colors underline">Back</button>
+      </div>
+    </div>
+
+    <!-- Privacy (bottom of page) -->
+    <div class="bg-emerald-950/30 rounded-xl p-4 border border-emerald-800/30 mt-12">
+      <p class="text-emerald-300 font-medium text-sm mb-3 flex items-center gap-2"><span class="text-emerald-400 text-lg leading-none">&#x1f512;</span> Anonymous by design &mdash; not a research project.</p>
+      <p class="text-slate-400 text-sm mb-3"><span class="text-slate-200 font-medium">For students:</span> You only ever enter a nickname &mdash; no real names, emails or accounts. Benchmarking is entirely optional and exists purely to give you feedback on your own play; your individual results are never recorded in any identifiable way.</p>
+      <p class="text-slate-400 text-sm"><span class="text-slate-200 font-medium">For educators:</span> The Slingshot does not record which universities use it or who takes part in a class, and any class view is anonymous and aggregate. There is no personal-data collection and no individual tracking &mdash; only basic, cookie-free usage by time and broad location, which is how we know roughly how many people play and from which countries. All data is hosted in the EU (Frankfurt), and you can delete a session and its data at any time.</p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-2xl mx-auto px-4 py-8 text-center">
+    <p class="text-slate-300 font-medium text-xs">&copy; 2026 Ammon Salter, Stefano Baruffaldi, Federico Bignone</p>
+    <p class="text-slate-500 text-xs mt-1">Ammon Salter (Warwick Business School) &middot; Stefano Baruffaldi (Politecnico di Milano) &middot; Federico Bignone (Warwick Business School)</p>
+  </footer>
+
+  <script>
+    // ==================== CONFIG ====================
+    const SUPABASE_URL = 'https://rqukezqiximsmpygjeqi.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_va7aQfh3pRbjq2csO2g6Rg_l1WWKNWR';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const LEVEL_LABELS = { ug: 'Undergraduate', masters: 'Masters', mba: 'MBA', other: 'Other' };
+
+    // ==================== TAB SWITCHING ====================
+    const ACTIVE_TAB = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-indigo-600 text-white';
+    const INACTIVE_TAB = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white/10 text-slate-300 hover:bg-white/20';
+
+    const TAB_IDS = { mygame: 'tabMyGame', create: 'tabCreate', results: 'tabResults' };
+    function showTab(tab) {
+      ['mygame', 'create', 'results'].forEach(t => {
+        document.getElementById(t + 'Tab').classList.toggle('hidden', tab !== t);
+        document.getElementById(TAB_IDS[t]).className = tab === t ? ACTIVE_TAB : INACTIVE_TAB;
+      });
+    }
+
+    // ==================== MOBILE MENU ====================
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      const menu = document.getElementById('mobileMenu');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      menu.classList.toggle('hidden');
+      this.setAttribute('aria-expanded', !expanded);
+    });
+
+    // ==================== MY GAME (solo player lookup) ====================
+    async function lookupMyGame(e) {
+      e.preventDefault();
+      const btn = document.getElementById('mygameBtn');
+      const errEl = document.getElementById('mygameError');
+      errEl.classList.add('hidden');
+      btn.textContent = 'Searching...';
+      btn.disabled = true;
+
+      try {
+        const nickname = document.getElementById('myNickname').value.trim();
+        const level = document.getElementById('myLevel').value;
+
+        // Find the player (most recent match)
+        const { data: players, error } = await sb.from('players')
+          .select('*')
+          .eq('nickname', nickname)
+          .eq('student_level', level)
+          .eq('finished', true)
+          .order('joined_at', { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+        if (!players || players.length === 0) {
+          errEl.textContent = 'No completed game found with that nickname and level. Check the spelling matches what you entered in the game.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        const player = players[0];
+
+        // Get outcome
+        const { data: outcomes } = await sb.from('outcomes')
+          .select('*')
+          .eq('player_id', player.id);
+
+        if (!outcomes || outcomes.length === 0) {
+          errEl.textContent = 'Game found but no outcome data recorded. The game may not have finished properly.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        const outcome = outcomes[0];
+
+        // Get benchmarks (try level-specific, fall back to 'all')
+        let { data: benchmarks } = await sb.from('benchmarks')
+          .select('*')
+          .eq('student_level', level);
+
+        if (!benchmarks || benchmarks.length === 0 || (benchmarks[0] && benchmarks[0].sample_size < 10)) {
+          const { data: allBench } = await sb.from('benchmarks')
+            .select('*')
+            .eq('student_level', 'all');
+          if (allBench && allBench.length > 0) benchmarks = allBench;
+        }
+
+        // Populate summary card
+        document.getElementById('myGameTitle').textContent = nickname;
+        document.getElementById('myGameMeta').textContent =
+          `${LEVEL_LABELS[level]} · Played ${new Date(player.joined_at).toLocaleDateString()}`;
+        document.getElementById('myStatTurns').textContent = outcome.final_turn || '-';
+        document.getElementById('myStatMilestones').textContent = outcome.milestones_completed || '-';
+        const val = outcome.final_valuation;
+        document.getElementById('myStatVal').textContent = val ? '£' + (val / 1000).toFixed(0) + 'k' : '-';
+        document.getElementById('myStatOutcome').innerHTML = formatOutcome(outcome.end_reason);
+
+        // ---- MY CHOICES vs ALL at level ----
+        document.getElementById('myChoicesLevel').textContent = LEVEL_LABELS[level];
+        const choicesEl = document.getElementById('myChoicesContent');
+        const choicesEmptyEl = document.getElementById('myChoicesEmpty');
+        choicesEl.innerHTML = '';
+
+        // Get all outcomes at this level for comparison
+        const { data: allLevelOutcomes } = await sb.from('outcomes')
+          .select('founder_type, sector, location, funding_path, player_id')
+          .in('player_id',
+            (await sb.from('players')
+              .select('id')
+              .eq('student_level', level)
+              .eq('finished', true)
+            ).data?.map(p => p.id) || []
+          );
+
+        const choiceFields = [
+          { key: 'founder_type', label: 'Founder Type' },
+          { key: 'sector', label: 'AI Sector' },
+          { key: 'location', label: 'Location' },
+          { key: 'funding_path', label: 'Funding Path' }
+        ];
+
+        let hasChoices = false;
+        if (allLevelOutcomes && allLevelOutcomes.length > 0) {
+          choiceFields.forEach(field => {
+            const myChoice = outcome[field.key];
+            if (!myChoice) return;
+            hasChoices = true;
+
+            // All-level distribution
+            const allCounts = {};
+            allLevelOutcomes.forEach(o => { if (o[field.key]) allCounts[o[field.key]] = (allCounts[o[field.key]] || 0) + 1; });
+            const allTotal = allLevelOutcomes.length;
+
+            const sorted = Object.entries(allCounts).sort((a, b) => b[1] - a[1]);
+
+            const div = document.createElement('div');
+            div.innerHTML = `<div class="text-sm font-medium text-slate-300 mb-2">${field.label} — <span class="text-white">You chose: ${myChoice}</span></div>`;
+
+            sorted.forEach(([value, count]) => {
+              const pct = Math.round((count / allTotal) * 100);
+              const isYou = value === myChoice;
+              const bar = document.createElement('div');
+              bar.className = 'mb-1.5';
+              bar.innerHTML = `
+                <div class="flex justify-between text-xs mb-0.5">
+                  <span class="${isYou ? 'text-white font-medium' : 'text-slate-400'}">${value}${isYou ? ' ← you' : ''}</span>
+                  <span class="text-slate-400">${pct}% of ${LEVEL_LABELS[level]} players</span>
+                </div>
+                <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full ${isYou ? 'bg-indigo-500' : 'bg-white/20'} rounded-full" style="width: ${pct}%"></div>
+                </div>
+              `;
+              div.appendChild(bar);
+            });
+
+            choicesEl.appendChild(div);
+          });
+        }
+
+        choicesEmptyEl.classList.toggle('hidden', hasChoices);
+
+        // ---- MY OUTCOMES vs ALL at level ----
+        document.getElementById('myBenchLevel').textContent = LEVEL_LABELS[level];
+        const barsEl = document.getElementById('myBenchmarkBars');
+        const emptyEl = document.getElementById('myBenchmarkEmpty');
+        barsEl.innerHTML = '';
+
+        if (!benchmarks || benchmarks.length === 0) {
+          emptyEl.classList.remove('hidden');
+        } else {
+          emptyEl.classList.add('hidden');
+          const metrics = [
+            { key: 'final_turn', label: 'Quarters Survived', format: v => Math.round(v) + ' / 16' },
+            { key: 'milestones_completed', label: 'Milestones Completed', format: v => v.toFixed(1) + ' / 3' },
+            { key: 'total_funding_raised', label: 'Total Funding Raised', format: v => '£' + (v / 1000).toFixed(0) + 'k' },
+            { key: 'num_funding_rounds', label: 'Funding Rounds', format: v => v.toFixed(1) },
+            { key: 'peak_valuation', label: 'Peak Valuation', format: v => '£' + (v / 1000).toFixed(0) + 'k' },
+            { key: 'final_equity', label: 'Final Equity Held', format: v => v.toFixed(1) + '%' },
+            { key: 'final_valuation', label: 'Final Valuation', format: v => '£' + (v / 1000).toFixed(0) + 'k' }
+          ];
+
+          metrics.forEach(m => {
+            const bench = benchmarks.find(b => b.metric === m.key);
+            if (!bench) return;
+            const myVal = outcome[m.key] || 0;
+
+            const div = document.createElement('div');
+            div.innerHTML = `
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-slate-300">${m.label}</span>
+                <span class="text-slate-400">You: <span class="text-white font-medium">${m.format(myVal)}</span> · Median: <span class="text-indigo-300 font-medium">${m.format(bench.p50)}</span></span>
+              </div>
+              <div class="h-3 bg-slate-800 rounded-full overflow-hidden relative">
+                <div class="h-full bg-indigo-600 rounded-full" style="width: ${getPercentileWidth(myVal, bench)}%"></div>
+              </div>
+            `;
+            barsEl.appendChild(div);
+          });
+        }
+
+        // Show results, hide form
+        document.getElementById('mygameForm').classList.add('hidden');
+        document.getElementById('mygameDisplay').classList.remove('hidden');
+
+      } catch (err) {
+        errEl.textContent = 'Something went wrong. Please try again.';
+        errEl.classList.remove('hidden');
+        console.error(err);
+      } finally {
+        btn.textContent = 'Find My Game';
+        btn.disabled = false;
+      }
+    }
+
+    function backToMygameForm() {
+      document.getElementById('mygameForm').classList.remove('hidden');
+      document.getElementById('mygameDisplay').classList.add('hidden');
+      document.getElementById('mygameForm').reset();
+    }
+
+    // ==================== PASSWORD HASHING ====================
+    async function hashPassword(pwd) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(pwd + '_slingshot_salt_2026');
+      const hash = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ==================== JOIN CODE GENERATION ====================
+    function generateJoinCode() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no I/O/1/0 to avoid confusion
+      let code = '';
+      for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+      return code;
+    }
+
+    // ==================== CREATE SESSION ====================
+    async function createSession(e) {
+      e.preventDefault();
+      const btn = document.getElementById('createBtn');
+      const errEl = document.getElementById('createError');
+      errEl.classList.add('hidden');
+      btn.textContent = 'Creating...';
+      btn.disabled = true;
+
+      try {
+        const instructor = document.getElementById('instructor').value.trim();
+        const name = document.getElementById('sessionName').value.trim();
+        const level = document.getElementById('level').value;
+        const password = document.getElementById('password').value;
+        const passwordHash = await hashPassword(password);
+        const joinCode = generateJoinCode();
+
+        const { data, error } = await sb.from('sessions').insert({
+          name,
+          instructor,
+          student_level: level,
+          join_code: joinCode,
+          password_hash: passwordHash
+        }).select().single();
+
+        if (error) {
+          // If join code collision (unlikely), retry once
+          if (error.code === '23505') {
+            const retryCode = generateJoinCode();
+            const { data: d2, error: e2 } = await sb.from('sessions').insert({
+              name, instructor, student_level: level,
+              join_code: retryCode, password_hash: passwordHash
+            }).select().single();
+            if (e2) throw e2;
+            showSuccess(retryCode, level);
+          } else {
+            throw error;
+          }
+        } else {
+          showSuccess(joinCode, level);
+        }
+      } catch (err) {
+        errEl.textContent = 'Something went wrong. Please try again.';
+        errEl.classList.remove('hidden');
+        console.error(err);
+      } finally {
+        btn.textContent = 'Create Session';
+        btn.disabled = false;
+      }
+    }
+
+    function showSuccess(code, level) {
+      document.getElementById('createForm').classList.add('hidden');
+      document.getElementById('createSuccess').classList.remove('hidden');
+      document.getElementById('joinCodeDisplay').textContent = code;
+      document.getElementById('levelLabel').textContent = LEVEL_LABELS[level];
+    }
+
+    function resetCreate() {
+      document.getElementById('createForm').classList.remove('hidden');
+      document.getElementById('createSuccess').classList.add('hidden');
+      document.getElementById('createForm').reset();
+    }
+
+    // ==================== VIEW RESULTS ====================
+    let currentSessions = [];
+    let currentOutcomes = [];
+
+    async function viewResults(e) {
+      e.preventDefault();
+      const btn = document.getElementById('resultsBtn');
+      const errEl = document.getElementById('resultsError');
+      errEl.classList.add('hidden');
+      btn.textContent = 'Loading...';
+      btn.disabled = true;
+
+      try {
+        const instructor = document.getElementById('resInstructor').value.trim();
+        const password = document.getElementById('resPassword').value;
+        const passwordHash = await hashPassword(password);
+
+        // Find sessions matching instructor + password
+        const { data: sessions, error } = await sb.from('sessions')
+          .select('*')
+          .eq('instructor', instructor)
+          .eq('password_hash', passwordHash);
+
+        if (error) throw error;
+        if (!sessions || sessions.length === 0) {
+          errEl.textContent = 'No sessions found. Check your name/email and password.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        currentSessions = sessions;
+
+        // Show session selector if multiple
+        if (sessions.length > 1) {
+          const selectorEl = document.getElementById('sessionSelector');
+          const listEl = document.getElementById('sessionList');
+          listEl.innerHTML = '';
+          sessions.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'w-full text-left px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-colors';
+            btn.innerHTML = `<span class="font-medium">${s.name}</span> <span class="text-slate-400 text-sm">(${LEVEL_LABELS[s.student_level]} &middot; ${s.join_code})</span>`;
+            btn.onclick = () => loadSessionResults(s);
+            listEl.appendChild(btn);
+          });
+          selectorEl.classList.remove('hidden');
+        }
+
+        // Load results for the first (or only) session
+        await loadSessionResults(sessions[0]);
+
+        document.getElementById('resultsForm').classList.add('hidden');
+        document.getElementById('resultsDisplay').classList.remove('hidden');
+
+      } catch (err) {
+        errEl.textContent = 'Something went wrong. Please try again.';
+        errEl.classList.remove('hidden');
+        console.error(err);
+      } finally {
+        btn.textContent = 'View Results';
+        btn.disabled = false;
+      }
+    }
+
+    async function loadSessionResults(session) {
+      // Get players
+      const { data: players } = await sb.from('players')
+        .select('*')
+        .eq('session_id', session.id);
+
+      // Get outcomes for these players
+      const playerIds = (players || []).map(p => p.id);
+      let outcomes = [];
+      if (playerIds.length > 0) {
+        const { data } = await sb.from('outcomes')
+          .select('*')
+          .in('player_id', playerIds);
+        outcomes = data || [];
+      }
+      currentOutcomes = outcomes;
+
+      // Get benchmarks for this level
+      const { data: benchmarks } = await sb.from('benchmarks')
+        .select('*')
+        .eq('student_level', session.student_level);
+
+      // Update summary
+      document.getElementById('summaryTitle').textContent = session.name;
+      document.getElementById('summaryMeta').textContent =
+        `${LEVEL_LABELS[session.student_level]} \u00b7 Join code: ${session.join_code} \u00b7 Created ${new Date(session.created_at).toLocaleDateString()}`;
+      document.getElementById('statJoined').textContent = (players || []).length;
+      document.getElementById('statFinished').textContent = outcomes.length;
+
+      const avgVal = outcomes.length > 0
+        ? Math.round(outcomes.reduce((sum, o) => sum + (o.final_valuation || 0), 0) / outcomes.length)
+        : 0;
+      document.getElementById('statAvgVal').textContent = avgVal > 0 ? '\u00a3' + (avgVal / 1000).toFixed(0) + 'k' : '-';
+
+      // Average engagement time (from outcomes.engagement_mins)
+      const timesWithData = outcomes.filter(o => o.engagement_mins && o.engagement_mins > 0);
+      if (timesWithData.length > 0) {
+        const avgMins = Math.round(timesWithData.reduce((sum, o) => sum + o.engagement_mins, 0) / timesWithData.length);
+        document.getElementById('statAvgTime').textContent = avgMins + ' min';
+      } else {
+        document.getElementById('statAvgTime').textContent = '-';
+      }
+
+      // Engagement score (1-5 scale)
+      const scoresWithData = outcomes.filter(o => o.engagement_score && o.engagement_score >= 1);
+      const engEl = document.getElementById('statEngagement');
+      const engDistEl = document.getElementById('engagementDist');
+      const engBarsEl = document.getElementById('engagementBars');
+
+      if (scoresWithData.length > 0) {
+        const avgScore = (scoresWithData.reduce((sum, o) => sum + o.engagement_score, 0) / scoresWithData.length).toFixed(1);
+        engEl.textContent = avgScore + ' / 5';
+
+        // Distribution bars
+        const dist = [0, 0, 0, 0, 0];
+        scoresWithData.forEach(o => dist[o.engagement_score - 1]++);
+        const maxCount = Math.max(...dist, 1);
+        engBarsEl.innerHTML = '';
+        const barColors = ['bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-emerald-400', 'bg-emerald-300'];
+        dist.forEach((count, i) => {
+          const pct = Math.max(4, (count / maxCount) * 100);
+          const bar = document.createElement('div');
+          bar.className = `flex-1 ${barColors[i]} rounded-sm transition-all`;
+          bar.style.height = pct + '%';
+          bar.title = count + ' student' + (count !== 1 ? 's' : '');
+          engBarsEl.appendChild(bar);
+        });
+        engDistEl.classList.remove('hidden');
+      } else {
+        engEl.textContent = '-';
+        engDistEl.classList.add('hidden');
+      }
+
+      // Student table
+      const tbody = document.getElementById('studentTableBody');
+      tbody.innerHTML = '';
+      (players || []).forEach(p => {
+        const o = outcomes.find(oc => oc.player_id === p.id);
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-white/5';
+        tr.innerHTML = `
+          <td class="py-2 px-2">${p.nickname}</td>
+          <td class="text-right py-2 px-2">${o ? o.final_turn : (p.finished ? '-' : 'Playing...')}</td>
+          <td class="text-right py-2 px-2">${o ? o.milestones_completed : '-'}</td>
+          <td class="text-right py-2 px-2">${o ? '\u00a3' + (o.final_valuation / 1000).toFixed(0) + 'k' : '-'}</td>
+          <td class="py-2 px-2 text-sm">${o ? formatOutcome(o.end_reason) : (p.finished ? 'Finished' : 'In progress')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // ---- CHOICES COMPARISON ----
+      document.getElementById('choicesLevel').textContent = LEVEL_LABELS[session.student_level];
+      const choicesEl = document.getElementById('choicesContent');
+      const choicesEmptyEl = document.getElementById('choicesEmpty');
+      choicesEl.innerHTML = '';
+
+      // Get ALL outcomes at this level (for comparison)
+      const { data: allLevelOutcomes } = await sb.from('outcomes')
+        .select('founder_type, sector, location, funding_path, player_id')
+        .in('player_id',
+          (await sb.from('players')
+            .select('id')
+            .in('session_id',
+              (await sb.from('sessions').select('id').eq('student_level', session.student_level)).data?.map(s => s.id) || []
+            )
+          ).data?.map(p => p.id) || []
+        );
+
+      if (outcomes.length > 0 && allLevelOutcomes && allLevelOutcomes.length > 0) {
+        choicesEmptyEl.classList.add('hidden');
+        const choiceFields = [
+          { key: 'founder_type', label: 'Founder Type' },
+          { key: 'sector', label: 'AI Sector' },
+          { key: 'location', label: 'Location' },
+          { key: 'funding_path', label: 'Funding Path' }
+        ];
+
+        choiceFields.forEach(field => {
+          // Class distribution
+          const classCounts = {};
+          outcomes.forEach(o => { if (o[field.key]) classCounts[o[field.key]] = (classCounts[o[field.key]] || 0) + 1; });
+          // All-level distribution
+          const allCounts = {};
+          allLevelOutcomes.forEach(o => { if (o[field.key]) allCounts[o[field.key]] = (allCounts[o[field.key]] || 0) + 1; });
+
+          if (Object.keys(classCounts).length === 0) return;
+
+          const classTotal = outcomes.length;
+          const allTotal = allLevelOutcomes.length;
+
+          // Sort by class frequency
+          const sorted = Object.entries(classCounts).sort((a, b) => b[1] - a[1]);
+
+          const div = document.createElement('div');
+          div.innerHTML = `<div class="text-sm font-medium text-slate-300 mb-2">${field.label}</div>`;
+
+          sorted.forEach(([value, count]) => {
+            const classPct = Math.round((count / classTotal) * 100);
+            const allCount = allCounts[value] || 0;
+            const allPct = allTotal > 0 ? Math.round((allCount / allTotal) * 100) : 0;
+
+            const bar = document.createElement('div');
+            bar.className = 'mb-1.5';
+            bar.innerHTML = `
+              <div class="flex justify-between text-xs mb-0.5">
+                <span class="text-white">${value}</span>
+                <span class="text-slate-400">Your class: <span class="text-white">${classPct}%</span> &middot; All ${LEVEL_LABELS[session.student_level]}: <span class="text-indigo-300">${allPct}%</span></span>
+              </div>
+              <div class="flex gap-1 h-2">
+                <div class="bg-white/20 rounded-full overflow-hidden flex-1">
+                  <div class="h-full bg-white/60 rounded-full" style="width: ${classPct}%"></div>
+                </div>
+                <div class="bg-indigo-900/30 rounded-full overflow-hidden flex-1">
+                  <div class="h-full bg-indigo-500/60 rounded-full" style="width: ${allPct}%"></div>
+                </div>
+              </div>
+            `;
+            div.appendChild(bar);
+          });
+
+          choicesEl.appendChild(div);
+        });
+      } else {
+        choicesEmptyEl.classList.remove('hidden');
+      }
+
+      // ---- OUTCOME BENCHMARKS ----
+      document.getElementById('benchLevel').textContent = LEVEL_LABELS[session.student_level];
+      const barsEl = document.getElementById('benchmarkBars');
+      const emptyEl = document.getElementById('benchmarkEmpty');
+      barsEl.innerHTML = '';
+
+      if (!benchmarks || benchmarks.length === 0 || (benchmarks[0] && benchmarks[0].sample_size < 10)) {
+        emptyEl.classList.remove('hidden');
+      } else {
+        emptyEl.classList.add('hidden');
+        const metrics = [
+          { key: 'final_turn', label: 'Quarters Survived', format: v => Math.round(v) + ' / 16' },
+          { key: 'milestones_completed', label: 'Milestones Completed', format: v => v.toFixed(1) + ' / 3' },
+          { key: 'final_valuation', label: 'Final Valuation', format: v => '\u00a3' + (v / 1000).toFixed(0) + 'k' }
+        ];
+
+        metrics.forEach(m => {
+          const bench = benchmarks.find(b => b.metric === m.key);
+          if (!bench) return;
+          const classAvg = outcomes.length > 0
+            ? outcomes.reduce((sum, o) => sum + (o[m.key] || 0), 0) / outcomes.length
+            : 0;
+
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-slate-300">${m.label}</span>
+              <span class="text-slate-400">Your class: <span class="text-white font-medium">${m.format(classAvg)}</span> &middot; All ${LEVEL_LABELS[session.student_level]}: <span class="text-indigo-300 font-medium">${m.format(bench.p50)}</span></span>
+            </div>
+            <div class="h-3 bg-slate-800 rounded-full overflow-hidden relative">
+              <div class="h-full bg-indigo-600 rounded-full" style="width: ${getPercentileWidth(classAvg, bench)}%"></div>
+            </div>
+          `;
+          barsEl.appendChild(div);
+        });
+      }
+
+      // ---- CLASS RANKING among all classes at this level ----
+      const rankEl = document.getElementById('rankingContent');
+      const rankSection = document.getElementById('rankingSection');
+      document.getElementById('rankLevel').textContent = LEVEL_LABELS[session.student_level];
+      rankEl.innerHTML = '';
+
+      // Get all sessions at this level with their outcomes
+      const { data: allSessions } = await sb.from('sessions')
+        .select('id, name')
+        .eq('student_level', session.student_level);
+
+      if (allSessions && allSessions.length > 1 && outcomes.length > 0) {
+        // Get all outcomes grouped by session
+        const allSessionIds = allSessions.map(s => s.id);
+        const { data: allPlayers } = await sb.from('players')
+          .select('id, session_id')
+          .in('session_id', allSessionIds);
+        const allPlayerIds = (allPlayers || []).map(p => p.id);
+        const { data: allOutcomes } = await sb.from('outcomes')
+          .select('player_id, final_valuation, final_turn, milestones_completed')
+          .in('player_id', allPlayerIds);
+
+        if (allOutcomes && allOutcomes.length > 0) {
+          // Build session averages
+          const sessionAvgs = {};
+          allSessions.forEach(s => { sessionAvgs[s.id] = { vals: [], turns: [], milestones: [] }; });
+          (allOutcomes || []).forEach(o => {
+            const player = (allPlayers || []).find(p => p.id === o.player_id);
+            if (player && sessionAvgs[player.session_id]) {
+              sessionAvgs[player.session_id].vals.push(o.final_valuation || 0);
+              sessionAvgs[player.session_id].turns.push(o.final_turn || 0);
+              sessionAvgs[player.session_id].milestones.push(o.milestones_completed || 0);
+            }
+          });
+
+          // Only count sessions with at least 1 completed game
+          const activeSessions = Object.entries(sessionAvgs).filter(([_, v]) => v.vals.length > 0);
+
+          if (activeSessions.length > 1) {
+            rankSection.classList.remove('hidden');
+            const avg = arr => arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+            // Rank by valuation
+            const valRanked = activeSessions
+              .map(([id, v]) => ({ id: parseInt(id), avg: avg(v.vals) }))
+              .sort((a, b) => b.avg - a.avg);
+            const valRank = valRanked.findIndex(r => r.id === session.id) + 1;
+
+            // Rank by survival
+            const turnRanked = activeSessions
+              .map(([id, v]) => ({ id: parseInt(id), avg: avg(v.turns) }))
+              .sort((a, b) => b.avg - a.avg);
+            const turnRank = turnRanked.findIndex(r => r.id === session.id) + 1;
+
+            const total = activeSessions.length;
+            rankEl.innerHTML = `
+              <p class="text-sm text-slate-300">There have been <span class="text-white font-medium">${total}</span> ${LEVEL_LABELS[session.student_level]} class sessions so far.</p>
+              <p class="text-sm text-slate-300">By average valuation, your class ranks <span class="text-white font-bold">${valRank}${ordinal(valRank)}</span> out of ${total}.</p>
+              <p class="text-sm text-slate-300">By average survival, your class ranks <span class="text-white font-bold">${turnRank}${ordinal(turnRank)}</span> out of ${total}.</p>
+            `;
+          } else {
+            rankSection.classList.add('hidden');
+          }
+        }
+      } else {
+        rankSection.classList.add('hidden');
+      }
+    }
+
+    function ordinal(n) {
+      const s = ['th', 'st', 'nd', 'rd'];
+      const v = n % 100;
+      return s[(v - 20) % 10] || s[v] || s[0];
+    }
+
+    function getPercentileWidth(value, bench) {
+      // Simple percentile estimate based on quartiles
+      if (value <= bench.p25) return Math.max(5, (value / bench.p25) * 25);
+      if (value <= bench.p50) return 25 + ((value - bench.p25) / (bench.p50 - bench.p25)) * 25;
+      if (value <= bench.p75) return 50 + ((value - bench.p50) / (bench.p75 - bench.p50)) * 25;
+      return Math.min(95, 75 + 20); // cap at 95%
+    }
+
+    function formatOutcome(reason) {
+      if (!reason) return '-';
+      const lower = reason.toLowerCase();
+      if (lower.includes('bankrupt') || lower.includes('cash')) return '<span class="text-red-400">Bankrupt</span>';
+      if (lower.includes('unicorn')) return '<span class="text-emerald-400">Unicorn</span>';
+      if (lower.includes('acqui')) return '<span class="text-blue-400">Acquired</span>';
+      if (lower.includes('ipo')) return '<span class="text-purple-400">IPO</span>';
+      if (lower.includes('shutdown') || lower.includes('shut')) return '<span class="text-orange-400">Shutdown</span>';
+      if (lower.includes('time') || lower.includes('end')) return '<span class="text-slate-300">Completed</span>';
+      return reason;
+    }
+
+    function backToResultsForm() {
+      document.getElementById('resultsForm').classList.remove('hidden');
+      document.getElementById('resultsDisplay').classList.add('hidden');
+      document.getElementById('sessionSelector').classList.add('hidden');
+    }
+
+    // ==================== CSV EXPORT ====================
+    function exportCSV() {
+      if (currentOutcomes.length === 0) return;
+      const headers = ['Nickname', 'Founder Type', 'Sector', 'Location', 'Funding Path', 'End Reason', 'Quarters', 'Milestones', 'Final Valuation', 'Final Cash', 'Final Revenue', 'Final Customers', 'Final Staff'];
+      const rows = currentOutcomes.map(o => {
+        // Find player nickname
+        return [
+          '', // nickname filled by join later
+          o.founder_type || '',
+          o.sector || '',
+          o.location || '',
+          o.funding_path || '',
+          o.end_reason || '',
+          o.final_turn || '',
+          o.milestones_completed || '',
+          o.final_valuation || '',
+          o.final_cash || '',
+          o.final_revenue || '',
+          o.final_customers || '',
+          o.final_staff || ''
+        ].join(',');
+      });
+
+      const csv = headers.join(',') + '\n' + rows.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'slingshot-results.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>
