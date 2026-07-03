@@ -388,6 +388,11 @@
 
     const LEVEL_LABELS = { ug: 'Undergraduate', masters: 'Masters', mba: 'MBA', other: 'Other' };
 
+    // Escape any value that came from the database before inserting into innerHTML
+    function escapeHtml(v) {
+      return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
     // ==================== TAB SWITCHING ====================
     const ACTIVE_TAB = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-indigo-600 text-white';
     const INACTIVE_TAB = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white/10 text-slate-300 hover:bg-white/20';
@@ -513,7 +518,7 @@
             const sorted = Object.entries(allCounts).sort((a, b) => b[1] - a[1]);
 
             const div = document.createElement('div');
-            div.innerHTML = `<div class="text-sm font-medium text-slate-300 mb-2">${field.label} — <span class="text-white">You chose: ${myChoice}</span></div>`;
+            div.innerHTML = `<div class="text-sm font-medium text-slate-300 mb-2">${field.label} — <span class="text-white">You chose: ${escapeHtml(myChoice)}</span></div>`;
 
             sorted.forEach(([value, count]) => {
               const pct = Math.round((count / allTotal) * 100);
@@ -522,7 +527,7 @@
               bar.className = 'mb-1.5';
               bar.innerHTML = `
                 <div class="flex justify-between text-xs mb-0.5">
-                  <span class="${isYou ? 'text-white font-medium' : 'text-slate-400'}">${value}${isYou ? ' ← you' : ''}</span>
+                  <span class="${isYou ? 'text-white font-medium' : 'text-slate-400'}">${escapeHtml(value)}${isYou ? ' ← you' : ''}</span>
                   <span class="text-slate-400">${pct}% of ${LEVEL_LABELS[level]} players</span>
                 </div>
                 <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
