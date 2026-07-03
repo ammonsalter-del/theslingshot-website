@@ -6,6 +6,7 @@
 
 An interactive, browser-based business simulation for teaching entrepreneurship and innovation management. Players run an AI startup through sixteen quarters of strategic decisions — funding, hiring, competition, market opportunities, milestones and pivots — learning to make consequential decisions under uncertainty through experience, failure and replay.
 
+
 **▶ Play now:** https://slingshotsim.org
 
 It runs in any modern browser. No installation, no accounts, no server — a single HTML file that also works offline once loaded.
