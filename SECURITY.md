@@ -61,6 +61,10 @@ Users concerned about external dependencies can review the source code and host 
 
 The game can be downloaded and played offline. Offline play functions identically, with benchmarking silently disabled.
 
+## Repository Security
+
+The repository, not the server, is the real security boundary: whoever can push to it changes what every future classroom loads. Current posture: a single maintainer, with no write access granted to anyone else; two-factor authentication on the GitHub account; branch protection on main [confirm in settings]; GitHub security features (Dependabot and code scanning) enabled; and effectively no third-party dependencies to compromise. The file itself is public for anyone to read.
+
 ## Reporting a Vulnerability
 
 If you discover a security issue — for example a cross-site scripting vulnerability, or a problem with how external content or benchmark data is handled — please report it responsibly.
