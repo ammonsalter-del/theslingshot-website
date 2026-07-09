@@ -311,7 +311,6 @@ CARDS.forEach((c,i)=>{
     <div class="meta">
       <div class="user">@${c.user}<button class="follow ${store["fol_"+c.id]?"on":""}">${store["fol_"+c.id]?"Following":"Follow"}</button></div>
       <div class="cap">${c.cap} <span class="tags">${c.tags}</span></div>
-      <div class="sound">🎵 <span class="txt">${c.sound} · ${c.sound} · </span></div>
     </div>`;
   s.innerHTML = c.final ? `${bg}` : `${bg}<div class="shade"></div>${furniture}`;
   feed.appendChild(s);
