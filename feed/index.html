@@ -348,6 +348,7 @@ function activate(i){
     const v = sec.querySelector("video");
     if (!v) return;
     if (k === i){ v.muted = muted; v.play().catch(()=>{}); }
+    else if (Math.abs(k - i) > 1){ v.pause(); v.removeAttribute("src"); try{v.load()}catch(_){} v.remove(); }
     else if (!v.paused) v.pause();
   });
 }
