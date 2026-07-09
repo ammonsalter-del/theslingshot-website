@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>The Slingshot — the feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --rail:#ffffff; --accent:#fe2c55; --em:#10b981; --amb:#fbbf24; --slate:#0f172a; --slate2:#1e293b; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;background:var(--slate);color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  #feed{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+  #feed::-webkit-scrollbar{display:none}
+  .card{position:relative;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+  .bg{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+  .scene{font-size:17vh;line-height:1.1;filter:drop-shadow(0 8px 24px rgba(0,0,0,.5))}
+  .scene small{display:block;font-size:5vh}
+  video.clip{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;opacity:0;transition:opacity .25s}
+  video.clip.ready{opacity:1}
+  .slot{position:absolute;top:calc(env(safe-area-inset-top,0px) + 46px);left:12px;z-index:6;
+    font-size:10px;color:rgba(255,255,255,.45);background:rgba(0,0,0,.35);
+    border:1px dashed rgba(255,255,255,.25);border-radius:6px;padding:3px 7px}
+  .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 25%,transparent 60%,rgba(0,0,0,.55));pointer-events:none}
+  /* progress */
+  #progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;display:flex;gap:3px;padding:6px 8px;z-index:20}
+  #progress i{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.25)}
+  #progress i.done{background:var(--amb)}
+  /* right rail */
+  .rail{position:absolute;right:8px;bottom:120px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:8}
+  .rail .avatar{width:48px;height:48px;border-radius:50%;border:1.5px solid #fff;overflow:hidden;background:#222;position:relative}
+  .rail .avatar svg{width:100%;height:100%;display:block}
+  .rail .avatar .plus{position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);width:18px;height:18px;
+    border-radius:50%;background:var(--em);color:#fff;font-size:14px;line-height:17px;text-align:center;font-weight:700}
+  .rail button{background:none;border:0;color:var(--rail);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:0}
+  .rail button svg{width:34px;height:34px;fill:#fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+  .rail button.liked svg{fill:var(--accent)}
+  .rail button.marked svg{fill:var(--amb)}
+  .rail .n{font-size:12px;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+  /* meta */
+  .meta{position:absolute;left:12px;right:76px;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:8}
+  .user{font-weight:700;font-size:16px;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+  .user .follow{margin-left:8px;font-size:12px;font-weight:600;color:#fff;border:1px solid #fff;
+    border-radius:4px;padding:1px 8px;background:none;cursor:pointer;vertical-align:middle}
+  .user .follow.on{color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.3)}
+  .cap{margin-top:6px;font-size:14.5px;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+  .tags{color:#7dd3fc;font-weight:600}
+  .sound{margin-top:8px;display:flex;align-items:center;gap:6px;font-size:13px;width:70%;overflow:hidden;white-space:nowrap}
+  .sound .txt{display:inline-block;animation:mq 8s linear infinite}
+  @keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  /* sound toggle + cue */
+  #soundBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:10px;z-index:22;background:rgba(15,23,42,.55);
+    border:0;color:#fff;border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer}
+  #cue{position:fixed;top:calc(env(safe-area-inset-top,0px) + 60px);right:10px;z-index:22;background:rgba(0,0,0,.55);
+    border-radius:16px;padding:6px 12px;font-size:12.5px;animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.45}}
+  /* heart burst */
+  .burst{position:absolute;z-index:15;font-size:70px;pointer-events:none;animation:pop .8s ease-out forwards}
+  @keyframes pop{0%{transform:scale(.4) rotate(-8deg);opacity:0}25%{transform:scale(1.15) rotate(6deg);opacity:1}
+    100%{transform:scale(1) translateY(-70px);opacity:0}}
+  /* comments sheet */
+  #sheet{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--slate);border-radius:14px 14px 0 0;
+    max-height:62dvh;transform:translateY(105%);transition:transform .28s ease;display:flex;flex-direction:column}
+  #sheet.open{transform:translateY(0)}
+  #sheet header{display:flex;justify-content:center;align-items:center;padding:12px;font-size:13px;color:#bbb;position:relative}
+  #sheet header b{color:#fff}
+  #sheet .x{position:absolute;right:12px;top:8px;background:none;border:0;color:#999;font-size:20px;cursor:pointer}
+  #clist{overflow-y:auto;padding:0 14px 10px}
+  .cmt{display:flex;gap:10px;margin-bottom:14px;font-size:14px}
+  .cmt .cav{width:32px;height:32px;border-radius:50%;flex:none;overflow:hidden;background:#333}
+  .cmt .cav svg{width:100%;height:100%}
+  .cmt .who{font-size:12px;color:#999}
+  .cmt .lk{margin-left:auto;color:#777;font-size:12px;flex:none}
+  #cbar{display:flex;gap:8px;padding:10px 12px calc(env(safe-area-inset-bottom,0px) + 10px);border-top:1px solid #334155}
+  #cbar input{flex:1;background:var(--slate2);border:0;border-radius:18px;color:#fff;padding:9px 14px;font-size:14px;outline:none}
+  #cbar button{background:none;border:0;color:var(--em);font-weight:700;font-size:14px;cursor:pointer}
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:rgba(30,41,59,.95);
+    color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;opacity:0;transition:.25s;z-index:40;pointer-events:none}
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+  /* text + final cards */
+  .textcard{padding:0 min(9vw,48px);font-size:min(7.2vw,34px);font-weight:800;line-height:1.35;text-align:left;max-width:560px}
+  .textcard em{color:var(--amb);font-style:normal}
+  .playbtn{display:inline-block;margin-top:26px;background:var(--accent);color:#fff;text-decoration:none;
+    font-size:20px;font-weight:800;padding:16px 42px;border-radius:32px;box-shadow:0 6px 30px rgba(254,44,85,.45)}
+  .ghlink{display:block;margin-top:16px;color:#9aa0b4;font-size:13px;text-decoration:none}
+  /* cover card — the website's design */
+  .cover{position:absolute;inset:0;overflow:hidden;
+    background:linear-gradient(135deg,#1a1a2e 0%,#16162a 50%,#1a1a2e 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8vw;
+    font-family:'Space Grotesk',system-ui,-apple-system,sans-serif}
+  .cover > *:not(video){position:relative;z-index:2}
+  .cover video.clip{z-index:1}
+  .cover img.logo{width:36vw;max-width:180px;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  .cover h1{margin:18px 0 0;font-size:9vw;font-weight:700;letter-spacing:-.02em;color:#fff}
+  .cover .tag{margin-top:6px;font-size:4vw;color:#c7d2fe;font-weight:500}
+  .cover .enter{margin-top:6vh;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:#94a3b8;
+    animation:flicker 3.2s infinite}
+  .cover .enter b{display:block;margin-top:6px;color:#fbbf24;letter-spacing:.18em;font-size:13.5px}
+  .cover .arrow{margin-top:2.5vh;font-size:26px;color:#c7d2fe;animation:bob 1.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(8px)}}
+  @keyframes flicker{0%,100%{opacity:1}92%{opacity:1}94%{opacity:.55}96%{opacity:1}}
+  /* game-styled final card */
+  .gamecard{position:absolute;inset:0;background:linear-gradient(90deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8vw}
+  .gamecard .hbar{position:absolute;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px 12px;
+    background:linear-gradient(90deg,#0f172a,#1e293b,#0f172a);border-bottom:2px solid #f59e0b;
+    font-weight:900;letter-spacing:.12em;color:#fbbf24;font-size:15px;text-align:left}
+  .gamecard .hbar small{display:block;color:#94a3b8;font-weight:600;letter-spacing:.02em;font-size:11px;margin-top:2px}
+  .gamecard h2{font-size:7.5vw;font-weight:900;margin:0;color:#fff;font-family:'Space Grotesk',system-ui,sans-serif}
+  .gamecard .rocket{font-size:10vh;margin:1.5vh 0;filter:drop-shadow(0 0 24px rgba(16,185,129,.5))}
+  .stats{display:flex;gap:10px;margin-top:2vh;flex-wrap:wrap;justify-content:center}
+  .stat{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:8px 14px;font-size:12.5px;color:#cbd5e1}
+  .stat b{display:block;color:#10b981;font-size:16px}
+  .playbtn2{display:inline-block;margin-top:3.5vh;background:linear-gradient(180deg,#10b981,#059669);color:#fff;
+    text-decoration:none;font-size:19px;font-weight:800;padding:15px 44px;border-radius:10px;
+    border:1px solid #34d399;box-shadow:0 6px 28px rgba(16,185,129,.4)}
+  .cover .ghlink{color:#64748b}
+  @media (prefers-reduced-motion: reduce){ .sound .txt,#cue,.cover .arrow,.cover .enter{animation:none} }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<button id="soundBtn" aria-label="toggle sound">🔇</button>
+<div id="cue">tap for sound 🔊</div>
+<main id="feed" aria-label="The Slingshot tutorial feed"></main>
+
+<div id="sheet" role="dialog" aria-label="comments">
+  <header><b id="ccount"></b>&nbsp;comments <button class="x" id="cclose" aria-label="close">✕</button></header>
+  <div id="clist"></div>
+  <div id="cbar"><input id="cinput" placeholder="add a comment…" aria-label="add a comment">
+  <button id="csend">Post</button></div>
+</div>
+<div id="toast"></div>
+
+<script>
+const AVATARS = {"fatima": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"fatimaGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#e0e7ff\"/><stop offset=\"100%\" style=\"stop-color:#c7d2fe\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#fatimaGrad)\" stroke=\"#6366f1\" stroke-width=\"2\"/> <ellipse cx=\"40\" cy=\"38\" rx=\"22\" ry=\"26\" fill=\"#8B5A2B\"/> <path d=\"M18 32 Q25 20 40 18 Q55 20 62 32 Q62 26 55 22 Q40 14 25 22 Q18 26 18 32\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"42\" rx=\"16\" ry=\"18\" fill=\"#D4A574\"/> <circle cx=\"33\" cy=\"38\" r=\"2.5\" fill=\"#1a1a1a\"/><circle cx=\"47\" cy=\"38\" r=\"2.5\" fill=\"#1a1a1a\"/> <path d=\"M35 48 Q40 51 45 48\" stroke=\"#8B4513\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"30\" y=\"56\" width=\"20\" height=\"12\" fill=\"#6366f1\" rx=\"2\"/> <circle cx=\"40\" cy=\"60\" r=\"1.5\" fill=\"white\"/> <path d=\"M22 28 Q20 20 28 18\" stroke=\"#c7d2fe\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/> </svg>", "yuki": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"yukiGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#fce7f3\"/><stop offset=\"100%\" style=\"stop-color:#fbcfe8\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#yukiGrad)\" stroke=\"#ec4899\" stroke-width=\"2\"/> <path d=\"M20 35 Q25 15 40 14 Q55 15 60 35 L58 50 Q55 55 40 56 Q25 55 22 50 Z\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#F5DEB3\"/> <ellipse cx=\"33\" cy=\"40\" rx=\"3\" ry=\"2\" fill=\"#1a1a1a\"/><ellipse cx=\"47\" cy=\"40\" rx=\"3\" ry=\"2\" fill=\"#1a1a1a\"/> <path d=\"M36 50 Q40 52 44 50\" stroke=\"#CD853F\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"28\" y=\"58\" width=\"24\" height=\"10\" fill=\"#10b981\" rx=\"2\"/> <path d=\"M36 62 L40 58 L44 62\" stroke=\"white\" stroke-width=\"1.5\" fill=\"none\"/> </svg>", "kwame": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"kwameGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#fef3c7\"/><stop offset=\"100%\" style=\"stop-color:#fde68a\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#kwameGrad)\" stroke=\"#f59e0b\" stroke-width=\"2\"/> <ellipse cx=\"40\" cy=\"30\" rx=\"18\" ry=\"14\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"16\" ry=\"18\" fill=\"#6B4423\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/> <path d=\"M33 48 Q40 54 47 48\" stroke=\"#4a3520\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"22\" y=\"58\" width=\"36\" height=\"12\" fill=\"#1a1a1a\" rx=\"2\"/> <path d=\"M32 64 L48 64\" stroke=\"#f59e0b\" stroke-width=\"2\"/> <rect x=\"38\" y=\"34\" width=\"4\" height=\"6\" fill=\"#4a3520\" rx=\"1\"/> </svg>", "aoife": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"aoifeGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#dcfce7\"/><stop offset=\"100%\" style=\"stop-color:#bbf7d0\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#aoifeGrad)\" stroke=\"#22c55e\" stroke-width=\"2\"/> <path d=\"M18 40 Q20 18 40 16 Q60 18 62 40 Q60 35 50 34 Q40 38 30 34 Q20 35 18 40\" fill=\"#B8860B\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#FFE4C4\"/> <circle cx=\"33\" cy=\"40\" r=\"2\" fill=\"#22c55e\"/><circle cx=\"47\" cy=\"40\" r=\"2\" fill=\"#22c55e\"/> <path d=\"M35 50 Q40 52 45 50\" stroke=\"#CD853F\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"26\" y=\"58\" width=\"28\" height=\"10\" fill=\"#374151\" rx=\"2\"/> <text x=\"40\" y=\"65\" text-anchor=\"middle\" fill=\"#22c55e\" font-size=\"6\" font-family=\"monospace\">&lt;/&gt;</text> </svg>", "raj": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"rajGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#e0f2fe\"/><stop offset=\"100%\" style=\"stop-color:#bae6fd\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#rajGrad)\" stroke=\"#0ea5e9\" stroke-width=\"2\"/> <path d=\"M22 38 Q28 22 40 20 Q52 22 58 38 Q54 34 40 33 Q26 34 22 38\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#C68642\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/> <path d=\"M34 50 Q40 53 46 50\" stroke=\"#8B5A2B\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <path d=\"M28 36 Q32 34 36 36 M44 36 Q48 34 52 36\" stroke=\"#1a1a1a\" stroke-width=\"1\" fill=\"none\"/> <rect x=\"28\" y=\"58\" width=\"24\" height=\"10\" fill=\"#0ea5e9\" rx=\"2\"/> <circle cx=\"40\" cy=\"63\" r=\"2\" fill=\"white\"/> </svg>", "wei": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"weiGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#f3e8ff\"/><stop offset=\"100%\" style=\"stop-color:#e9d5ff\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#weiGrad)\" stroke=\"#a855f7\" stroke-width=\"2\"/> <path d=\"M20 36 Q24 20 40 18 Q56 20 60 36 L55 40 Q40 38 25 40 Z\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#F5DEB3\"/> <ellipse cx=\"33\" cy=\"40\" rx=\"2.5\" ry=\"2\" fill=\"#1a1a1a\"/><ellipse cx=\"47\" cy=\"40\" rx=\"2.5\" ry=\"2\" fill=\"#1a1a1a\"/> <path d=\"M36 50 Q40 53 44 50\" stroke=\"#CD853F\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"28\" y=\"58\" width=\"24\" height=\"10\" fill=\"#a855f7\" rx=\"2\"/> <path d=\"M33 63 L40 60 L47 63\" stroke=\"white\" stroke-width=\"1.5\" fill=\"none\"/> </svg>", "priya": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"priyaGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#fee2e2\"/><stop offset=\"100%\" style=\"stop-color:#fecaca\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#priyaGrad)\" stroke=\"#ef4444\" stroke-width=\"2\"/> <path d=\"M18 42 Q22 16 40 14 Q58 16 62 42 Q58 38 40 36 Q22 38 18 42\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#C68642\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/> <path d=\"M34 49 Q40 53 46 49\" stroke=\"#8B5A2B\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/> <circle cx=\"24\" cy=\"44\" r=\"3\" fill=\"#fecaca\"/> <rect x=\"26\" y=\"58\" width=\"28\" height=\"10\" fill=\"#ef4444\" rx=\"2\"/> <path d=\"M32 63 L40 61 L48 63\" stroke=\"white\" stroke-width=\"1.5\" fill=\"none\"/> </svg>", "marcus": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"marcusGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#dbeafe\"/><stop offset=\"100%\" style=\"stop-color:#bfdbfe\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#marcusGrad)\" stroke=\"#3b82f6\" stroke-width=\"2\"/> <path d=\"M24 34 Q28 24 40 22 Q52 24 56 34 Q52 30 40 29 Q28 30 24 34\" fill=\"#4a3728\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"16\" ry=\"18\" fill=\"#6B4423\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/> <path d=\"M35 50 Q40 53 45 50\" stroke=\"#4a3520\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"30\" y=\"32\" width=\"20\" height=\"2\" fill=\"#4a3728\" rx=\"1\"/> <rect x=\"26\" y=\"58\" width=\"28\" height=\"10\" fill=\"#3b82f6\" rx=\"2\"/> <text x=\"40\" y=\"65\" text-anchor=\"middle\" fill=\"white\" font-size=\"7\" font-family=\"sans-serif\">%</text> </svg>", "emma": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"emmaGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#fef9c3\"/><stop offset=\"100%\" style=\"stop-color:#fef08a\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#emmaGrad)\" stroke=\"#eab308\" stroke-width=\"2\"/> <path d=\"M20 45 Q18 20 40 16 Q62 20 60 45 Q55 35 40 34 Q25 35 20 45\" fill=\"#F4E4BA\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#FFE4C4\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#4a90a4\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#4a90a4\"/> <path d=\"M35 50 Q40 52 45 50\" stroke=\"#CD853F\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"28\" y=\"58\" width=\"24\" height=\"10\" fill=\"#1a1a1a\" rx=\"2\"/> <path d=\"M34 62 L38 65 L42 62 L46 65\" stroke=\"#eab308\" stroke-width=\"1.5\" fill=\"none\"/> </svg>", "david": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"davidGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#d1fae5\"/><stop offset=\"100%\" style=\"stop-color:#a7f3d0\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#davidGrad)\" stroke=\"#059669\" stroke-width=\"2\"/> <ellipse cx=\"40\" cy=\"28\" rx=\"14\" ry=\"10\" fill=\"#1a1a1a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"16\" ry=\"18\" fill=\"#6B4423\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#1a1a1a\"/> <path d=\"M35 50 Q40 52 45 50\" stroke=\"#4a3520\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"24\" y=\"56\" width=\"32\" height=\"14\" fill=\"#374151\" rx=\"2\"/> <path d=\"M36 60 L36 66 M40 58 L40 66 M44 60 L44 66\" stroke=\"#059669\" stroke-width=\"1.5\"/> <rect x=\"38\" y=\"62\" width=\"4\" height=\"4\" fill=\"#059669\"/> </svg>", "sofia": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"sofiaGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#ffe4e6\"/><stop offset=\"100%\" style=\"stop-color:#fecdd3\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#sofiaGrad)\" stroke=\"#f43f5e\" stroke-width=\"2\"/> <path d=\"M16 48 Q18 18 40 14 Q62 18 64 48 Q58 40 40 38 Q22 40 16 48\" fill=\"#4a2c2a\"/> <ellipse cx=\"40\" cy=\"44\" rx=\"15\" ry=\"17\" fill=\"#D4A574\"/> <circle cx=\"33\" cy=\"40\" r=\"2.5\" fill=\"#4a2c2a\"/><circle cx=\"47\" cy=\"40\" r=\"2.5\" fill=\"#4a2c2a\"/> <path d=\"M34 50 Q40 54 46 50\" stroke=\"#8B5A2B\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/> <circle cx=\"30\" cy=\"46\" r=\"3\" fill=\"#fecdd3\" opacity=\"0.6\"/> <circle cx=\"50\" cy=\"46\" r=\"3\" fill=\"#fecdd3\" opacity=\"0.6\"/> <rect x=\"28\" y=\"58\" width=\"24\" height=\"10\" fill=\"#f43f5e\" rx=\"2\"/> <circle cx=\"40\" cy=\"63\" r=\"2\" fill=\"white\"/> </svg>", "aisha": "<svg viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"> <defs><linearGradient id=\"aishaGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:#fae8ff\"/><stop offset=\"100%\" style=\"stop-color:#f5d0fe\"/></linearGradient></defs> <circle cx=\"40\" cy=\"40\" r=\"38\" fill=\"url(#aishaGrad)\" stroke=\"#d946ef\" stroke-width=\"2\"/> <path d=\"M18 50 Q16 22 40 16 Q64 22 62 50\" fill=\"#1a1a1a\"/> <path d=\"M20 36 Q40 32 60 36 Q58 28 40 24 Q22 28 20 36\" fill=\"#d946ef\" opacity=\"0.3\"/> <ellipse cx=\"40\" cy=\"46\" rx=\"14\" ry=\"16\" fill=\"#C68642\"/> <circle cx=\"34\" cy=\"42\" r=\"2\" fill=\"#1a1a1a\"/><circle cx=\"46\" cy=\"42\" r=\"2\" fill=\"#1a1a1a\"/> <path d=\"M36 52 Q40 54 44 52\" stroke=\"#8B5A2B\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/> <rect x=\"28\" y=\"60\" width=\"24\" height=\"8\" fill=\"#d946ef\" rx=\"2\"/> <circle cx=\"40\" cy=\"64\" r=\"1.5\" fill=\"white\"/> </svg>"};
+const GAME_URL = "https://slingshotsim.org/play/";
+
+/* ============ THE DECK ============
+   Swap any placeholder for a video by dropping media/cardXX.mp4 next to this file.
+   Bake the music INTO each video when you edit it — one file, no sync problems.
+   Spare card ideas kept at the bottom of this script. */
+const CARDS = [
+ {id:"card00", av:null, user:"theslingshot.game", cap:"you are about to enter another dimension",
+  tags:"#theslingshotzone", sound:"theremin — the slingshot zone",
+  zone:true, likes:19800, comments:[
+   ["wei","the theremin got me","2.0k"],
+   ["priya","a dimension of burn rates and term sheets 😭","1.3k"],
+   ["david","do not adjust your phone","644"]]},
+ {id:"card02", av:"priya", user:"priya.revises", cap:"the game is on the module. playing it is revision. who knew studying could be fun?",
+  tags:"#librarytok #examseason #theslingshot", sound:"lofi study beats — cell C, floor 3",
+  scene:"📚🙈🎮", sub:"it counts. it's on the syllabus.",
+  likes:8900, comments:[
+   ["yuki","the lecturer MADE the game it's basically homework","1.4k"],
+   ["kwame","exam in 40 mins wish me luck","730"],
+   ["sofia","girl the textbooks are decorative at this point","688"],
+   ["marcus","this is the reading","95"]]},
+ {id:"card03", av:"yuki", user:"yuki.ships", cap:"3am. red bull. keyboard. gone. new laptop, same file, nothing lost 🫡",
+  tags:"#theslingshot #3amclub #rip", sound:"sad violin (but it's fine)",
+  scene:"🥤⌨️💀", sub:"good news: nothing was lost. it just opens again.",
+  likes:15200, comments:[
+   ["aoife","the game doesn't even have a save server to lose. it's just a file","2.8k"],
+   ["raj","press f for the keyboard","1.1k"],
+   ["fatima","this happened to me except it was tea and 2pm","456"],
+   ["david","the shrug at the end 😭","390"]]},
+ {id:"card04", av:"kwame", user:"kwame.backrow", cap:"mitochondria will have to wait, i made it past milestone 2",
+  tags:"#unitok #lecture #theslingshot", sound:"voice — muffled lecture, no music",
+  scene:"🎓🌱📉", sub:"the plant cell can wait. the quarter can't.",
+  likes:9800, comments:[
+   ["emma","one eye on the plant cell one eye on the burn rate","870"],
+   ["sofia","milestone 2 reached in row 14 of a module he isn't taking","1.2k"],
+   ["wei","the mitochondria is not the powerhouse of YOUR startup","640"]]},
+ {id:"card18", av:"aoife", user:"blake.the.founder", cap:"blake was convinced he was going to be the next hassabis, but a competitor reached his milestone before him",
+  tags:"#dogsdontpivot #theslingshot", sound:"someone else's milestone fanfare",
+  scene:"🐕💻", sub:"blake. pre-setback.",
+  likes:14900, comments:[
+   ["priya","the bark when the rival's fanfare plays 😭","1.8k"],
+   ["marcus","he heard the milestone sound and knew it wasn't his","1.1k"],
+   ["yuki","hassabis lost milestones too blake. keep going","706"],
+   ["david","the ears went back. he knew.","934"]]},
+ {id:"card01", av:"marcus", user:"lars.off.piste", cap:"playing the slingshot on the chairlift. missed my stop",
+  tags:"#theslingshot #skitok #startupfail", sound:"original sound — the slingshot",
+  scene:"🚡💻🏔️", sub:"the ski run can wait. the quarter can't.",
+  likes:12400, comments:[
+   ["priya","sir the bar is UP and you are still negotiating","2.1k"],
+   ["wei","the lift going round again while he finishes the quarter 😭","984"],
+   ["emma","the quarter does not pause for the alps","511"],
+   ["david","new fear unlocked","203"]]},
+ {id:"card16", av:"priya", user:"priya.storytime", cap:"i worked SO hard. i raised the money. i was careful. and it still went under. it's not fair",
+  tags:"#storytime #startupfail #theslingshot", sound:"voice — real tears, fictional startup",
+  scene:"😭📉💔", sub:"the startup was fictional. the grief was not.",
+  likes:17400, comments:[
+   ["emma","crying over a pretend company at 1am is the most founder thing ever","2.5k"],
+   ["kwame","'i was CAREFUL' babe the market doesn't care. that's the lesson","1.7k"],
+   ["david","this is how i found out i actually cared about my fake employees","1.2k"],
+   ["yuki","the game lets you run it back. real life should take notes","990"]]},
+ {id:"card15", av:"yuki", user:"the.slingshot.dance", cap:"the slingshot dance. pull back. release. pivot. launch. now do it in the game 🚀",
+  tags:"#slingshotdance #dancechallenge #theslingshot", sound:"the slingshot song — official dance audio",
+  scene:"🕺💃🚀", sub:"pull back → release → pivot → launch",
+  likes:16800, comments:[
+   ["kwame","the pivot step being an actual pivot is sending me","1.6k"],
+   ["emma","taught it to my seminar group before the tournament. we lost but we danced","1.1k"],
+   ["raj","the release move goes so hard","734"],
+   ["sofia","doing this at graduation idc","902"]]},
+ {id:"card19", av:"wei", user:"the.cofounders", cap:"sometimes the choice of funders and their terms can get a little heated...",
+  tags:"#catsalwayspivot #theslingshot", sound:"three founders, one term sheet",
+  scene:"🐈🐈‍⬛📄", sub:"the funding round. the board cannot agree.",
+  likes:13400, comments:[
+   ["emma","the ginger one wants the angel money you can TELL","1.9k"],
+   ["raj","the small black one said bootstrap or nothing","1.2k"],
+   ["david","the angel chime at the end 😭 someone clicked accept","876"],
+   ["priya","board meetings at my startup are exactly like this","640"]]},
+ {id:"card20", av:null, user:"the.new.hire", cap:"turns out AI is not very good at creating an AI startup",
+  tags:"#AIpivotstoolate #theslingshot", sound:"the failure notes. again.",
+  scene:"🤖💸📉", sub:"it set token spend to maximum on day one.",
+  likes:11200, comments:[
+   ["yuki","the confident lean back before the failure sound 😭","1.5k"],
+   ["marcus","it spent the whole budget on itself. of course it did","1.1k"],
+   ["aoife","humans 1 — 0 machines. for now","742"],
+   ["kwame","even the robot got the sad notes","505"]]},
+ {id:"card11", av:"aisha", user:"aisha.unicorn", cap:"UNICORN. IN MY DORM. time to phone a friend.",
+  tags:"#unicorn #dormlife #theslingshot", sound:"the victory fanfare + screaming",
+  scene:"🦄🛏️🎉", sub:"some runs end like this. replay until yours does.",
+  likes:18600, comments:[
+   ["david","the flatmates thought someone scored a goal","2.4k"],
+   ["marcus","she's telling everyone she knows. as she should","1.8k"],
+   ["priya","meanwhile my run ended in administration 🙃","977"],
+   ["raj","the victory sound then the SCREAM 😭","406"]]},
+ {id:"card12", av:"fatima", user:"fatima.founder", cap:"IPO, London Stock Exchange, 2036. it all started with a simulation game",
+  tags:"#aiunicorn #theslingshot", sound:"the opening bell — day one of trading",
+  scene:"🔔🏛️🚀", sub:"results not typical. results not real. yet.",
+  likes:21000, comments:[
+   ["wei","the 2036 in the corner took me OUT","3.1k"],
+   ["emma","manifesting this for all of us","1.2k"],
+   ["yuki","she kept the same laptop from the red bull incident","2.7k"],
+   ["kwame","AIM not nasdaq. stay loyal","840"]]},
+ {id:"card14", av:null, user:"theslingshot.game", cap:"free. instant. no sign-up. just play.",
+  tags:"#playnow", sound:"the rocket, obviously",
+  final:true, likes:30100, comments:[
+   ["raj","just play it","5.0k"],
+   ["aoife","good luck everyone 🍀","2.3k"],
+   ["marcus","see you at the top of the leaderboard","1.1k"]]}
+];
+
+/* ============ build ============ */
+const feed = document.getElementById("feed");
+const prog = document.getElementById("progress");
+const fmt = n => n>=1000 ? (n/1000).toFixed(n>=10000?0:1).replace(".0","")+"K" : n;
+const store = JSON.parse(localStorage.getItem("slingfeed")||"{}");
+const save = () => localStorage.setItem("slingfeed", JSON.stringify(store));
+
+const GRADS = ["#0f172a,#065f46","#0f172a,#92400e","#0f172a,#3730a3","#0f172a,#0c4a6e",
+ "#1e293b,#334155","#0f172a,#5b21b6","#0f172a,#9d174d","#1e293b,#065f46","#0f172a,#b45309",
+ "#1e293b,#3730a3","#0f172a,#155e75","#1e293b,#6d28d9","#0f172a,#1e293b","#1e293b,#0f172a"];
+
+CARDS.forEach((c,i)=>{
+  const s = document.createElement("section");
+  s.className = "card"; s.dataset.i = i;
+  const liked = store["like_"+c.id], marked = store["mark_"+c.id];
+  const railAv = c.avimg ? `<img src="${c.avimg}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()">`
+    : c.av ? AVATARS[c.av] : `<img src="media/logo.png" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()">`;
+  let bg;
+  if (c.final){
+    bg = `<div class="cover">
+      <h1 style="font-size:9vw">your run starts now</h1>
+      <div class="tag">The Slingshot · An AI Startup Simulation</div>
+      <div class="stats">
+        <div class="stat"><b>free</b>always</div>
+        <div class="stat"><b>instant</b>nothing to install</div>
+        <div class="stat"><b>no sign-up</b>just play</div>
+      </div>
+      <button class="playbtn2" style="border:1px solid #34d399;cursor:pointer" onclick="sendYourself()">✉ &nbsp;Send it to yourself</button>
+      <div style="margin-top:12px;font-size:13px;color:#cbd5e1">it&rsquo;s a laptop game &mdash; send the link, play it big<br>
+        <span style="color:#34d399;font-weight:700;font-size:15px">slingshotsim.org/play</span></div>
+      </div>`;
+  } else if (c.zone){
+    bg = `<div class="cover">
+      <img class="logo" src="media/logo.png" alt="The Slingshot logo" onerror="this.style.display='none'">
+      <h1>The Slingshot</h1>
+      <div class="tag">An AI Startup Simulation</div>
+      <div class="enter">do not adjust your phone<b>you are entering the slingshot zone</b></div>
+      <div style="margin-top:10px;font-size:12px;color:#cbd5e1;font-style:italic">a dimension of burn rates, term sheets and one very scarce founder&rsquo;s attention</div>
+      <div class="arrow">⌄</div>
+      </div>`;
+  } else if (c.text){
+    bg = `<div class="bg" style="background:linear-gradient(135deg,#1a1a2e 0%,#16162a 50%,#1a1a2e 100%)">
+      <div class="textcard" style="font-family:'Space Grotesk',system-ui,sans-serif">${c.text}</div></div>`;
+  } else {
+    bg = `<div class="bg" style="background:linear-gradient(160deg,${GRADS[i%GRADS.length]})">
+      <div><div class="scene">${c.scene}</div><small class="scene" style="font-size:2.2vh;opacity:.85;margin-top:2vh;display:block">${c.sub||""}</small></div></div>
+      `;
+  }
+  const furniture = c.final ? "" : `
+    <div class="rail">
+      <div class="avatar">${railAv}${(c.av||c.avimg)?'<div class="plus">+</div>':""}</div>
+      <button class="like ${liked?"liked":""}" aria-label="like">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9C.6 8.6 2.6 5 6 5c2 0 3.4 1.1 4 2.2C10.6 6.1 12 5 14 5c3.4 0 5.4 3.6 4 7-2.5 4.4-10 9-6 9z" transform="translate(2 -1) scale(.92)"/></svg>
+        <span class="n">${fmt(c.likes + (liked?1:0))}</span></button>
+      <button class="cbtn" aria-label="comments">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 5.9 2 10.7c0 2.8 1.6 5.3 4 6.9L5 22l4.8-2.5c.7.1 1.4.2 2.2.2 5.5 0 10-3.9 10-8.9S17.5 2 12 2z"/></svg>
+        <span class="n">${fmt(c.comments.length*137+58)}</span></button>
+      <button class="mark ${marked?"marked":""}" aria-label="save">
+        <svg viewBox="0 0 24 24"><path d="M6 2h12a1 1 0 011 1v19l-7-4.5L5 22V3a1 1 0 011-1z"/></svg>
+        <span class="n">${marked?"saved":"save"}</span></button>
+      <button class="share" aria-label="share">
+        <svg viewBox="0 0 24 24"><path d="M14 3l8 7-8 7v-4C7 13 4 16 2 20c0-7 4-11 12-12V3z"/></svg>
+        <span class="n">share</span></button>
+    </div>
+    <div class="meta">
+      <div class="user">@${c.user}<button class="follow ${store["fol_"+c.id]?"on":""}">${store["fol_"+c.id]?"Following":"Follow"}</button></div>
+      <div class="cap">${c.cap} <span class="tags">${c.tags}</span></div>
+      <div class="sound">🎵 <span class="txt">${c.sound} · ${c.sound} · </span></div>
+    </div>`;
+  s.innerHTML = c.final ? `${bg}` : `${bg}<div class="shade"></div>${furniture}`;
+  feed.appendChild(s);
+  const seg = document.createElement("i"); prog.appendChild(seg);
+});
+
+/* progress + current card + video lifecycle */
+let current = 0, muted = true;
+const cards = [...document.querySelectorAll(".card")];
+const segs = [...prog.children];
+const soundBtn = document.getElementById("soundBtn");
+const cue = document.getElementById("cue");
+
+function ensureVideo(i){
+  const c = CARDS[i]; if(!c || c.text) return;
+  const sec = cards[i];
+  if (sec.querySelector("video")) return;
+  const v = document.createElement("video");
+  v.className="clip"; v.src = "media/"+c.id+".mp4";
+  v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline","");
+  v.preload = "auto";
+  v.addEventListener("canplay", ()=> v.classList.add("ready"));
+  v.addEventListener("error", ()=> v.remove());
+  const cover = sec.querySelector(".cover");
+  if ((c.zone || c.final) && cover) cover.insertBefore(v, cover.firstChild);   // behind the title, above the gradient
+  else sec.insertBefore(v, sec.querySelector(".shade"));
+}
+
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    const i = +e.target.dataset.i;
+    const v = e.target.querySelector("video");
+    if (e.isIntersecting && e.intersectionRatio > .6){
+      current = i;
+      segs.forEach((s,k)=> s.classList.toggle("done", k<=i));
+      ensureVideo(i); ensureVideo(i+1);
+      const vv = e.target.querySelector("video");
+      if (vv){ vv.muted = muted; vv.play().catch(()=>{}); }
+    } else if (v){ v.pause(); }
+  });
+},{threshold:[0,.6,1]});
+cards.forEach(c=>io.observe(c));
+ensureVideo(0); ensureVideo(1);
+
+/* sound */
+function setMuted(m){
+  muted = m;
+  soundBtn.textContent = m ? "🔇" : "🔊";
+  const v = cards[current].querySelector("video");
+  if (v){ v.muted = m; if(!m) v.play().catch(()=>{}); }
+  if (!m) cue.style.display = "none";
+}
+soundBtn.addEventListener("click", ()=> setMuted(!muted));
+cue.addEventListener("click", ()=> setMuted(false));
+
+/* taps: single = pause/play, double = like */
+let lastTap = 0, tapTimer;
+feed.addEventListener("click", ev=>{
+  if (ev.target.closest(".rail,.meta,a,button")) return;
+  const now = Date.now();
+  if (now - lastTap < 300){
+    clearTimeout(tapTimer);
+    doLike(current, ev.clientX, ev.clientY, true);
+  } else {
+    tapTimer = setTimeout(()=>{
+      const v = cards[current].querySelector("video");
+      if (v) v.paused ? v.play() : v.pause();
+    }, 300);
+  }
+  lastTap = now;
+});
+
+function doLike(i, x, y, forceOn){
+  const c = CARDS[i], sec = cards[i];
+  const btn = sec.querySelector(".like"), n = btn.querySelector(".n");
+  const key = "like_"+c.id;
+  if (forceOn && store[key]) { burst(sec,x,y); return; }
+  store[key] = !store[key]; save();
+  btn.classList.toggle("liked", !!store[key]);
+  n.textContent = fmt(c.likes + (store[key]?1:0));
+  if (store[key] && x!==undefined) burst(sec,x,y);
+}
+function burst(sec,x,y){
+  const h = document.createElement("div");
+  h.className="burst"; h.textContent="❤️";
+  const r = sec.getBoundingClientRect();
+  h.style.left=(x-r.left-35)+"px"; h.style.top=(y-r.top-35)+"px";
+  sec.appendChild(h); setTimeout(()=>h.remove(), 850);
+}
+
+/* rail buttons */
+feed.addEventListener("click", ev=>{
+  const sec = ev.target.closest(".card"); if(!sec) return;
+  const i = +sec.dataset.i, c = CARDS[i];
+  if (ev.target.closest(".like")) doLike(i, undefined, undefined, false);
+  if (ev.target.closest(".mark")){
+    const key="mark_"+c.id; store[key]=!store[key]; save();
+    const b = sec.querySelector(".mark");
+    b.classList.toggle("marked", !!store[key]);
+    b.querySelector(".n").textContent = store[key]?"saved":"save";
+  }
+  if (ev.target.closest(".share")){
+    (navigator.share ? navigator.share({title:"The Slingshot", url:GAME_URL}).catch(()=>{}) :
+      navigator.clipboard.writeText(GAME_URL).then(()=>toast("link copied — send it")));
+  }
+  if (ev.target.closest(".follow")){
+    const key="fol_"+c.id; store[key]=!store[key]; save();
+    const f = sec.querySelector(".follow");
+    f.classList.toggle("on", !!store[key]);
+    f.textContent = store[key] ? "Following" : "Follow";
+  }
+  if (ev.target.closest(".cbtn")) openSheet(i);
+});
+
+/* comments */
+const sheet=document.getElementById("sheet"), clist=document.getElementById("clist"),
+ ccount=document.getElementById("ccount"), cinput=document.getElementById("cinput");
+function openSheet(i){
+  const c = CARDS[i];
+  ccount.textContent = fmt(c.comments.length*137+58);
+  clist.innerHTML = c.comments.map(([who,txt,lk])=>`
+    <div class="cmt"><div class="cav">${AVATARS[who]||""}</div>
+    <div><div class="who">${who}</div>${txt}</div><div class="lk">❤ ${lk}</div></div>`).join("");
+  sheet.classList.add("open"); sheet.dataset.i = i;
+}
+document.getElementById("cclose").addEventListener("click", ()=> sheet.classList.remove("open"));
+document.getElementById("csend").addEventListener("click", ()=>{
+  const t = cinput.value.trim(); if(!t) return;
+  clist.insertAdjacentHTML("afterbegin",
+   `<div class="cmt"><div class="cav"><div style="width:100%;height:100%;display:grid;place-items:center">🫵</div></div>
+    <div><div class="who">you</div>${t.replace(/</g,"&lt;")}</div><div class="lk">❤ 0</div></div>`);
+  cinput.value=""; toast("posted (to this device, anyway)");
+});
+
+/* toast + keys */
+const toastEl=document.getElementById("toast");
+let tt; function toast(m){ toastEl.textContent=m; toastEl.classList.add("on");
+  clearTimeout(tt); tt=setTimeout(()=>toastEl.classList.remove("on"),1800); }
+
+/* final card: send the game link to yourself */
+function sendYourself(){
+  if (navigator.share){
+    navigator.share({title:"The Slingshot", text:"play it on a laptop:", url:GAME_URL}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(GAME_URL).then(()=>toast("link copied — see you on the big screen"))
+      .catch(()=>toast(GAME_URL));
+  }
+}
+document.addEventListener("keydown", e=>{
+  if (e.key==="ArrowDown"||e.key==="ArrowUp"){
+    e.preventDefault();
+    const next = Math.min(Math.max(current+(e.key==="ArrowDown"?1:-1),0),cards.length-1);
+    cards[next].scrollIntoView({behavior:"smooth"});
+  }
+  if (e.key===" "){ e.preventDefault();
+    const v=cards[current].querySelector("video"); if(v) v.paused?v.play():v.pause(); }
+  if (e.key==="Escape") sheet.classList.remove("open");
+});
+
+</script>
+</body>
+</html>
