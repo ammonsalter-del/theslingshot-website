@@ -339,21 +339,38 @@ function ensureVideo(i){
   else sec.insertBefore(v, sec.querySelector(".shade"));
 }
 
+function activate(i){
+  if (i < 0 || i >= cards.length) return;
+  current = i;
+  segs.forEach((s,k)=> s.classList.toggle("done", k<=i));
+  ensureVideo(i); ensureVideo(i+1);
+  cards.forEach((sec,k)=>{
+    const v = sec.querySelector("video");
+    if (!v) return;
+    if (k === i){ v.muted = muted; v.play().catch(()=>{}); }
+    else if (!v.paused) v.pause();
+  });
+}
 const io = new IntersectionObserver(es=>{
   es.forEach(e=>{
-    const i = +e.target.dataset.i;
-    const v = e.target.querySelector("video");
-    if (e.isIntersecting && e.intersectionRatio > .6){
-      current = i;
-      segs.forEach((s,k)=> s.classList.toggle("done", k<=i));
-      ensureVideo(i); ensureVideo(i+1);
-      const vv = e.target.querySelector("video");
-      if (vv){ vv.muted = muted; vv.play().catch(()=>{}); }
-    } else if (v){ v.pause(); }
+    if (e.isIntersecting && e.intersectionRatio > .55) activate(+e.target.dataset.i);
   });
 },{threshold:[0,.6,1]});
 cards.forEach(c=>io.observe(c));
-ensureVideo(0); ensureVideo(1);
+let scrollTimer;
+feed.addEventListener("scroll", ()=>{
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(()=>{
+    const i = Math.round(feed.scrollTop / feed.clientHeight);
+    if (i !== current) activate(i);
+    else {
+      ensureVideo(i); ensureVideo(i+1);
+      const v = cards[i] && cards[i].querySelector("video");
+      if (v && v.paused){ v.muted = muted; v.play().catch(()=>{}); }
+    }
+  }, 120);
+}, {passive:true});
+activate(0);
 
 /* sound */
 function setMuted(m){
