@@ -300,7 +300,7 @@ CARDS.forEach((c,i)=>{
         <span class="n">${fmt(c.likes + (liked?1:0))}</span></button>
       <button class="cbtn" aria-label="comments">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 5.9 2 10.7c0 2.8 1.6 5.3 4 6.9L5 22l4.8-2.5c.7.1 1.4.2 2.2.2 5.5 0 10-3.9 10-8.9S17.5 2 12 2z"/></svg>
-        <span class="n">${fmt(c.comments.length*137+58)}</span></button>
+        <span class="n">${fmt(Math.round(c.likes/17) + c.comments.length*13)}</span></button>
       <button class="mark ${marked?"marked":""}" aria-label="save">
         <svg viewBox="0 0 24 24"><path d="M6 2h12a1 1 0 011 1v19l-7-4.5L5 22V3a1 1 0 011-1z"/></svg>
         <span class="n">${marked?"saved":"save"}</span></button>
@@ -392,9 +392,20 @@ activate(0); upDbg();
 function setMuted(m){
   muted = m;
   soundBtn.textContent = m ? "🔇" : "🔊";
-  const v = cards[current].querySelector("video");
-  if (v){ v.muted = m; if(!m) v.play().catch(()=>{}); }
-  if (!m) cue.style.display = "none";
+  if (m){
+    cards.forEach(sec=>{ const v = sec.querySelector("video"); if (v) v.muted = true; });
+  } else {
+    /* user gesture: bless every video element for unmuted playback (iOS requires per-element) */
+    cards.forEach((sec,k)=>{
+      const v = sec.querySelector("video");
+      if (!v) return;
+      v.muted = false;
+      const p = v.play();
+      if (p && p.then) p.then(()=>{ if (k !== current) v.pause(); }).catch(()=>{});
+      if (k !== current) setTimeout(()=>{ if (k !== current) v.pause(); }, 60);
+    });
+    cue.style.display = "none";
+  }
 }
 soundBtn.addEventListener("click", ()=> setMuted(!muted));
 cue.addEventListener("click", ()=> setMuted(false));
