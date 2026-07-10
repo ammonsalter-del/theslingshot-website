@@ -331,7 +331,7 @@ function ensureVideo(i){
   const v = document.createElement("video");
   v.className="clip"; v.src = "media/"+c.id+".mp4";
   v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline","");
-  v.preload = "auto";
+  v.preload = "metadata";
   v.addEventListener("canplay", ()=> v.classList.add("ready"));
   v.addEventListener("error", ()=> v.remove());
   const cover = sec.querySelector(".cover");
@@ -339,6 +339,16 @@ function ensureVideo(i){
   else sec.insertBefore(v, sec.querySelector(".shade"));
 }
 
+/* temporary on-screen diagnostics */
+const dbg = document.createElement("div");
+dbg.style.cssText = "position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 34px);z-index:99;background:rgba(0,0,0,.6);color:#0f0;font:10px monospace;padding:3px 6px;border-radius:4px;pointer-events:none;max-width:80vw";
+document.body.appendChild(dbg);
+let _s = 0, _o = 0, _lastErr = "";
+window.addEventListener("error", e => { _lastErr = (e.message||"?") + " L" + (e.lineno||"?"); upDbg(); });
+function upDbg(){
+  dbg.textContent = "i=" + current + " vids=" + document.querySelectorAll("video").length +
+    " S:" + _s + " O:" + _o + (_lastErr ? " ERR:" + _lastErr : "");
+}
 function activate(i){
   if (i < 0 || i >= cards.length) return;
   current = i;
@@ -348,18 +358,20 @@ function activate(i){
     const v = sec.querySelector("video");
     if (!v) return;
     if (k === i){ v.muted = muted; v.play().catch(()=>{}); }
-    else if (Math.abs(k - i) > 1){ v.pause(); v.removeAttribute("src"); try{v.load()}catch(_){} v.remove(); }
     else if (!v.paused) v.pause();
   });
 }
 const io = new IntersectionObserver(es=>{
+  _o++;
   es.forEach(e=>{
     if (e.isIntersecting && e.intersectionRatio > .55) activate(+e.target.dataset.i);
   });
+  upDbg();
 },{threshold:[0,.6,1]});
 cards.forEach(c=>io.observe(c));
 let scrollTimer;
 feed.addEventListener("scroll", ()=>{
+  _s++;
   clearTimeout(scrollTimer);
   scrollTimer = setTimeout(()=>{
     const i = Math.round(feed.scrollTop / feed.clientHeight);
@@ -369,9 +381,11 @@ feed.addEventListener("scroll", ()=>{
       const v = cards[i] && cards[i].querySelector("video");
       if (v && v.paused){ v.muted = muted; v.play().catch(()=>{}); }
     }
+    upDbg();
   }, 120);
 }, {passive:true});
-activate(0);
+for (let k = 0; k < cards.length; k++) ensureVideo(k);
+activate(0); upDbg();
 
 /* sound */
 function setMuted(m){
