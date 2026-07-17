@@ -16,12 +16,6 @@ Three modes serve different cohorts: Seed (forgiving, for first-time players and
 - [How to Play](https://slingshotsim.org/how-to-play.html): rules and systems overview.
 - [UK AI Ecosystem](https://slingshotsim.org/uk-ecosystem.html): the real-world grounding of the game's sectors, funders and milestones.
 
-## The family
-
-- [The Disruptor](https://disruptorsim.org): a free, open-source corporate entrepreneurship and innovation simulation; players act as a Chief Innovation Officer.
-- [Build, Bin, Boost](https://buildbinboost.org/): a free, open-source simulation teaching R&D portfolio management; players act as Head of R&D.
-- [The Innovation and Entrepreneurship Playbook](https://ieplaybook.substack.com): the Substack following the whole family of games.
-
 ## Background
 
 - [About](https://slingshotsim.org/about.html): the research project behind the game, who built it, and how.

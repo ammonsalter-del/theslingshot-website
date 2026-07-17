@@ -1,78 +1,129 @@
 # The Slingshot: An AI Startup Simulation
 
-**Version 2** | June 2026
+A free, browser-based simulation for teaching entrepreneurship and innovation management. Players run an AI startup through 16 quarters of strategic decisions, navigating funding, hiring, competition, research partnerships, and pivots.
+
+**Version 2.0** | Released June 2026
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20749017.svg)](https://doi.org/10.5281/zenodo.20749017)
 
-An interactive, browser-based business simulation for teaching entrepreneurship and innovation management. Players run an AI startup through sixteen quarters of strategic decisions — funding, hiring, competition, market opportunities, milestones and pivots — learning to make consequential decisions under uncertainty through experience, failure and replay.
+**Play:** https://slingshotsim.org/play · **Website:** https://slingshotsim.org · **Archived release (Zenodo):** https://doi.org/10.5281/zenodo.20749017
 
-**▶ Play now:** https://slingshotsim.org
-
-It runs in any modern browser. No installation, no accounts, no server — a single HTML file that also works offline once loaded.
-
-Since launch in January 2026 it has been played by more than 1,900 people in 60 countries. A game takes 25 to 40 minutes, depending on experience.
+![The Slingshot Screenshot](docs/screenshot.png)
 
 ## Overview
 
-The Slingshot places students in the role of a first-time AI startup founder making real strategic decisions under uncertainty. Set in the UK's AI ecosystem, players spend limited attention across competing priorities, build a team, raise money, respond to rivals, and race to complete three progressive milestones before the cash or the time runs out. The design builds on the attention-based view of the firm (Ocasio, 1997): attention is the scarce resource, and the central tension is allocating it between building internal capability and engaging the outside world that holds the resources a venture needs.
+The Slingshot places students in the role of an AI startup founder making real strategic decisions under uncertainty. Set in the UK's thriving AI ecosystem in 2026, players experience what it takes to build a billion-dollar company in one of the world's most dynamic startup environments.
 
-Over sixteen quarters (about four years), players must:
+Over 3-4 simulated years (12-16 quarters), players must:
 
-- Complete three progressively challenging milestones before running out of cash or time
-- Allocate limited **Attention Points** across competing priorities each quarter
+- Complete three progressively challenging milestones before running out of cash
+- Allocate limited attention (Attention Points) across competing priorities
 - Navigate the tension between scientific rigour and commercial pressure
-- Weigh **where to play** — assess market opportunities and back the strongest before pivoting
-- Respond to rivals racing toward the same milestones
+- Respond to competitors racing toward the same goals
 - Build and retain a team while managing culture and morale
-- Make funding decisions — bootstrapping, angels, venture capital, or UK innovation grants — that affect control and runway
+- Make funding decisions that affect control and runway
+- Apply for UK innovation grants to secure non-dilutive funding
 
-Most players fail on their first attempt — and that is by design. The game teaches through experience, failure and replay, and outcomes are deliberately stochastic, so two players who decide similarly can finish very differently.
+The game's timeline reflects reality: the average UK AI unicorn reaches billion-dollar status in just 4.8 years (about 19 quarters).
 
-## What's new in Version 2
+Most players fail on their first attempt, and that is by design. The game teaches through experience, failure, and replay.
 
-- **Market Opportunity Navigator (Where to Play):** a redesigned Market Opportunities system based on Gruber and Tal's *Where to Play* framework — map opportunities by potential and challenge, then decide how far to back each one on the agile-focus dartboard.
-- **Seed mode:** a gentler way in for newcomers — more starting attention and funding, with competitive benchmarking off — alongside the standard Core mode and the harder Extreme mode.
-- **Token Spend:** model the cost of the AI your team runs on, trading cash and attention against capacity.
-- **Trajectory benchmarking:** opt-in, anonymous comparison of your run against your class and all players, with class join codes for in-class sessions. Fully opt-in and fire-and-forget — the game is unaffected if anything fails.
-- **Milestone choices:** at each milestone, choose a conservative, balanced or ambitious version, trading requirements and deadline against reward.
-- **Specialist angels** and a range of smaller improvements to events, funding and pacing.
+## Features
 
-## For educators
+- **8 AI Sectors**: Healthcare, Robotics, Finance, Creative AI, Cybersecurity, Climate Tech, Legal Tech, Education, each with unique challenges
+- **12 Founder Types**: From Academic to Serial Founder to First-Timer, each with different strengths and weaknesses
+- **550+ Unique Events**: Realistic scenarios drawn from actual startup experiences
+- **3 Rival Companies**: AI-controlled competitors that race you to milestones (unique rivals per sector)
+- **Multiple Funding Paths**: Bootstrap, angels, accelerators, venture capital, or UK innovation grants
+- **UK Grant Funding System**: Apply to Innovate UK-style grants with realistic assessor feedback and scoring
+- **Three Difficulty Modes**: Seed (forgiving, for first-time players), Core (the standard game), and Extreme (for advanced cohorts)
+- **Revenue Mechanics**: Build ARR through different business models (B2B SaaS, Healthcare Procurement, Consumer, Research Grants)
+- **Strategic Pivots**: Change direction when competitors get ahead or opportunities emerge
+- **Three Mini-Games**: Conference booth, investor pitch, and demo day, each a business activity experienced rather than described
+- **UK AI Ecosystem Context**: Grounded in the real UK AI landscape, with mini-cases inspired by firms such as Isomorphic Labs, Wayve, Synthesia and Darktrace
+- **Trajectory Benchmarking**: Opt-in, anonymous system comparing your performance against your class and all players, with zero-cost in-class tournaments (no registration, no personal data)
 
-The Slingshot is built for teaching entrepreneurial strategy in nascent industries, technology venturing, innovation management and technology commercialisation, across undergraduate, postgraduate and executive courses. Assessment guidance, class formats and FAQs: https://slingshotsim.org/educators.html
+## What's New in Version 2.0
 
-The full **Educators Pack** — companions, a ready-to-teach slide deck, assignments, quizzes, classroom exercises, discussion prompts, sector mini-cases, and two AI assistants — is **not held in this repository**. It is shared with educators on request, free, to keep the educator-only materials (which reveal game mechanics and hold assessment answers) away from students. Request access from **ammon.salter@wbs.ac.uk**.
+- **Seed mode**: A gentler mode for first-time players and introductory teaching, with benchmarking switched off so beginners can learn without it.
+- **Competitive play and in-class tournaments**: Live competitive benchmarking in Core mode, and zero-cost class tournaments with a shared join code, no registration and no personal data captured.
+- **Market Opportunity Navigator**: A market-selection system built on the Where to Play framework (Gruber and Tal, 2017).
+- **Token Spend mechanic**: A new resource decision layer.
+- **Regenerating venture**: The venture regenerates between milestones, changing the shape of the run.
 
-A public **Player AI Assistant** is open to everyone and answers students' questions during play without revealing the engine.
+## Quick Start
 
-## The family
+### To Play
+1. **Online**: Play instantly in the browser at https://slingshotsim.org/play
+2. **Offline**: Download the game file from the Zenodo release or Releases, and open it in any modern browser
 
-The Slingshot is part of a family of free, open-source simulations in innovation and entrepreneurship: [The Disruptor](https://disruptorsim.org), a corporate entrepreneurship and innovation simulation played as Chief Innovation Officer, and [Build, Bin, Boost](https://buildbinboost.org/), where you run a technology company's R&D portfolio as Head of R&D. [The Innovation and Entrepreneurship Playbook](https://ieplaybook.substack.com) follows the whole family.
+No installation, accounts, or internet connection required (for offline play).
+
+### System Requirements
+- Any modern web browser (Chrome, Firefox, Safari, Edge)
+- Desktop or laptop recommended (mobile works but experience is optimised for larger screens)
+- Average game time: 25-40 minutes
+
+## For Educators
+
+The Slingshot is designed for teaching entrepreneurship, entrepreneurial strategy in nascent industries, innovation management, technology venturing and technology commercialisation, at undergraduate, postgraduate and executive levels.
+
+A free educator pack (an Educator's Companion, a Player's Companion, a ready-to-teach slide deck, reflective assessment ideas, eight venture-matched mini-cases of real UK AI startups, and AI assistants for players and educators) is available on request from ammon.salter@wbs.ac.uk. Full detail and teaching guidance are on the website at https://slingshotsim.org/educators.html.
+
+### Ways to Use
+- **Single session** (1-2 hours): Experiential introduction to entrepreneurship concepts
+- **Multi-week module**: Progressive skill building with reflection between sessions
+- **Full course integration**: Tournament formats, written assignments, theory connections
+
+### Sample Lesson Plan (Single Session)
+1. Brief setup (5 min): Explain most will fail, that is expected
+2. Play (25-40 min): Individual or pairs, assign different sectors
+3. Debrief (30-45 min): What surprised you? What was difficult? Connect to theory
 
 ## Citation
 
-If you use this software in teaching or research, please cite it using the metadata in `CITATION.cff`:
+If you use this game in teaching or research, please cite:
 
-> Salter, A., Baruffaldi, S., & Bignone, F. (2026). *The Slingshot: An AI Startup Simulation* (Version 2) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20749017
+```
+Salter, A., Baruffaldi, S., & Bignone, F. (2026). The Slingshot: An AI Startup Simulation
+(Version 2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20749017
+```
 
-## Licence
+BibTeX:
+```bibtex
+@software{salter2026slingshot,
+  author    = {Salter, Ammon and Baruffaldi, Stefano and Bignone, Federico},
+  title     = {The Slingshot: An AI Startup Simulation},
+  year      = {2026},
+  version   = {2.0},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.20749017},
+  url       = {https://doi.org/10.5281/zenodo.20749017}
+}
+```
 
-This work — the game and all accompanying materials — is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)**. You may share and adapt the material for non-commercial purposes, with attribution, indicating changes, and releasing adaptations under the same licence. Commercial use requires the authors' permission. See the `LICENSE` file for the full legal text.
+## License
+
+This work is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). See LICENSE file for details.
+
+You are free to share (copy and redistribute) and adapt (remix, transform, build upon) the material, under the terms of attribution, non-commercial use, and share-alike.
+
+## Acknowledgments
+
+### Funding
+This game was developed as part of the ESRC-funded project "Profiting from Science: The Development and Valuation of Artificial Intelligence New Ventures and Engagement with the Science Base" (Grant Reference: ES/X003949/1).
+
+### Team
+- **Lead Author**: Ammon Salter (Warwick Business School, The University of Warwick)
+- **Co-Investigators**: Stefano Baruffaldi (Politecnico di Milano), Federico Bignone (Warwick Business School, The University of Warwick)
+
+### AI Development Assistants
+Claude (Anthropic), Gemini (Google), ChatGPT & GPT-5 (OpenAI)
 
 ## Disclaimer
 
-The Slingshot is educational software for teaching and learning. All companies, characters, founders, investors and scenarios in the game are fictional; any resemblance to real persons or businesses is coincidental. It is not business, investment or legal advice, and is provided "as is" without warranty of any kind.
-
-## Acknowledgements
-
-**Funding.** Developed as part of the ESRC-funded project "Profiting from Science: The Development and Valuation of Artificial Intelligence New Ventures and Engagement with the Science Base" (Grant Reference: ES/X003949/1).
-
-**Team.** Lead author: Ammon Salter (Warwick Business School, University of Warwick). Co-investigators: Stefano Baruffaldi (Politecnico di Milano) and Federico Bignone (Warwick Business School, University of Warwick).
-
-**Contributors and betatesters.** Ali Ahmed (Warwick Business School), Paola Criscuolo (Imperial College London), Linus Dahlander (ESMT Berlin), Daniela Defazio (University of Bath), Panos Desyllas (University of Bath), Virgilio Failla (University of Bath), Christos Kolympiris (Warwick Business School), Hila Lifshitz (Warwick Business School), Orietta Marsili (University of Bristol), Hana Milanov (IMD Business School), Rossella Salandra (University of Bath), Giacomo Salter, Suki Salter, Christian Stadler (Warwick Business School), Manos Vasilakis, Philipp Lucas Wähler (Warwick Business School), and students on the Corporate Entrepreneurship module, Masters in Management, Warwick Business School.
-
-**AI development assistants.** Claude (Anthropic), Gemini (Google), ChatGPT & GPT-5 (OpenAI).
+The Slingshot is educational software designed solely for teaching and learning. All companies, characters, founders, investors, and scenarios in the game are fictional; any resemblance to real persons, businesses, or events is coincidental. The software is provided "as is" without warranty of any kind.
 
 ---
 
-© 2025–2026 Ammon Salter, Stefano Baruffaldi and Federico Bignone. Licensed under CC BY-NC-SA 4.0.
+© 2026 Ammon Salter, Stefano Baruffaldi, Federico Bignone
