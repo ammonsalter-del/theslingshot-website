@@ -14,7 +14,7 @@ A free, browser-based simulation for teaching entrepreneurship and innovation ma
 
 The Slingshot places students in the role of an AI startup founder making real strategic decisions under uncertainty. Set in the UK's thriving AI ecosystem in 2026, players experience what it takes to build a billion-dollar company in one of the world's most dynamic startup environments.
 
-Over 3-4 simulated years (12-16 quarters), players must:
+Over sixteen quarters (about four years), players must:
 
 - Complete three progressively challenging milestones before running out of cash
 - Allocate limited attention (Attention Points) across competing priorities
@@ -30,9 +30,9 @@ Most players fail on their first attempt, and that is by design. The game teache
 
 ## Features
 
-- **8 AI Sectors**: Healthcare, Robotics, Finance, Creative AI, Cybersecurity, Climate Tech, Legal Tech, Education, each with unique challenges
+- **12 AI Sectors**: Healthcare, Industrial, Financial, Retail, Creative, Security, Transport, Education, Food, Sports, Wellbeing and On-device AI, each with unique challenges
 - **12 Founder Types**: From Academic to Serial Founder to First-Timer, each with different strengths and weaknesses
-- **550+ Unique Events**: Realistic scenarios drawn from actual startup experiences
+- **590+ Unique Events**: Realistic scenarios drawn from actual startup experiences
 - **3 Rival Companies**: AI-controlled competitors that race you to milestones (unique rivals per sector)
 - **Multiple Funding Paths**: Bootstrap, angels, accelerators, venture capital, or UK innovation grants
 - **UK Grant Funding System**: Apply to Innovate UK-style grants with realistic assessor feedback and scoring
