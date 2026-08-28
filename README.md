@@ -2,7 +2,7 @@
 
 A free, browser-based simulation for teaching entrepreneurship and innovation management. Players run an AI startup through 16 quarters of strategic decisions, navigating funding, hiring, competition, research partnerships, and pivots.
 
-**Version 2.0** | Released June 2026
+**Version 2.1** | Released September 2026
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20749017.svg)](https://doi.org/10.5281/zenodo.20749017)
 
@@ -42,6 +42,18 @@ Most players fail on their first attempt, and that is by design. The game teache
 - **Three Mini-Games**: Conference booth, investor pitch, and demo day, each a business activity experienced rather than described
 - **UK AI Ecosystem Context**: Grounded in the real UK AI landscape, with mini-cases inspired by firms such as Isomorphic Labs, Wayve, Synthesia and Darktrace
 - **Trajectory Benchmarking**: Opt-in, anonymous system comparing your performance against your class and all players, with zero-cost in-class tournaments (no registration, no personal data)
+
+## What's New in Version 2.1
+
+- **Ada, the venture builder:** bring your own idea — Ada turns it into a playable venture and hands you a file the game reads.
+- **Twelve sectors:** four new pathways — food, sport, wellbeing and on-device AI.
+- **Rebuilt mini-games:** the investor pitch and demo day are now illustrated scenes with sound.
+- **Schumpeter:** an end-of-game debrief — upload your journey report and reflect on the run with him.
+- **Accessibility:** playable by keyboard and screen reader throughout.
+- **Time-stamped play:** a franked, tamper-evident mark on every report, built for assessment.
+- **More staff:** double the hiring pool, with international hires, visa fees and UK immigration rules.
+- **More decisions:** the event pool has grown past 590, with a new set on living with LLMs.
+- **New pages:** an FAQ for players and educators, and a full licence page.
 
 ## What's New in Version 2.0
 
@@ -86,7 +98,7 @@ If you use this game in teaching or research, please cite:
 
 ```
 Salter, A., Baruffaldi, S., & Bignone, F. (2026). The Slingshot: An AI Startup Simulation
-(Version 2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20749017
+(Version 2.1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20749017
 ```
 
 BibTeX:
