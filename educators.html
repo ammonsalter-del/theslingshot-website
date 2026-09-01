@@ -163,6 +163,69 @@
       </div>
     </div>
 
+    <h2 class="text-2xl font-bold text-white mb-4">Ada's Venture Building Cycle</h2>
+
+    <p class="text-slate-300 leading-relaxed mb-6">
+      Ada is the game's venture builder: a guided conversation that turns a student's own idea into a playable venture. It builds a theory of value stage by stage, applying scientific thinking and method throughout: students are asked to treat their assumptions as hypotheses and to think about what evidence would test them.
+    </p>
+
+    <img src="images/ada-venture-building-cycle.png" alt="Ada's Venture Building Cycle: eleven stages from prior experience and knowledge to your startup, spiralling into the game" class="rounded-xl w-full mb-6" loading="lazy">
+
+    <ol class="list-decimal list-inside space-y-2 mb-6">
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Prior experience and knowledge.</span> Ada starts from the student: their background, skills and the problems they care about, so the venture is anchored in who they are.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Problem and solution.</span> The student states the problem and the solution in their own words; Ada draws them out but never supplies them.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Where to Play.</span> Using Gruber and Tal's framework, students map alternative market opportunities, weigh attractiveness against difficulty, and choose a first target.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Value proposition.</span> Students assemble a full proposition: the problem, the advantage, the target customer and that customer's goal.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Value capture.</span> How the venture makes money, what stops others copying it, what resources it needs, and whether it sells to businesses or consumers.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">AI and science.</span> Students articulate how the venture uses AI and what research it leans on.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Name.</span> The student names the company; Ada never does.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Attitude to risk.</span> The student declares a stance, bold or cautious, recorded in the venture profile.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Location.</span> The student chooses a UK base from the relevant cities, with honest trade-offs.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Checkpoint.</span> Ada reads the venture back; the student approves or revises before committing.</li>
+        <li class="text-slate-300 text-sm leading-relaxed"><span class="text-indigo-200 font-semibold">Your startup.</span> A saved venture profile the game loads, so the student plays their own startup.</li>
+    </ol>
+
+    <button onclick="document.getElementById('readingsModal').classList.remove('hidden');document.getElementById('readingsModal').classList.add('flex')" class="bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-6 py-3 rounded-lg transition mb-12">References by stage</button>
+
+    <!-- Readings Modal -->
+    <div id="readingsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);" onclick="if(event.target === this) { this.classList.add('hidden'); this.classList.remove('flex'); }">
+      <div class="bg-slate-800 border border-white/20 rounded-2xl max-w-2xl w-full shadow-2xl shadow-indigo-500/10 relative max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+        <button onclick="document.getElementById('readingsModal').classList.add('hidden');document.getElementById('readingsModal').classList.remove('flex')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors" aria-label="Close">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <div class="p-8">
+          <h3 class="text-xl font-bold text-white mb-4">References by stage</h3>
+          <h4 class="text-indigo-200 font-semibold mb-2">Framing: theory of value and scientific method</h4>
+          <ul class="space-y-2 mb-5 text-slate-300 text-sm leading-relaxed">
+            <li>Camuffo, A., Cordova, A., Gambardella, A. and Spina, C. (2020). A Scientific Approach to Entrepreneurial Decision Making: Evidence from a Randomized Control Trial. <em>Management Science</em>, 66(2), 564&ndash;586. <a href="https://doi.org/10.1287/mnsc.2018.3249" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1287/mnsc.2018.3249</a></li>
+            <li>Felin, T. and Zenger, T. R. (2017). The Theory-Based View: Economic Actors as Theorists. <em>Strategy Science</em>, 2(4), 258&ndash;271. <a href="https://doi.org/10.1287/stsc.2017.0048" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1287/stsc.2017.0048</a></li>
+            <li>Felin, T., Gambardella, A., Novelli, E. and Zenger, T. (2024). A Scientific Method for Startups. <em>Journal of Management</em>. <a href="https://doi.org/10.1177/01492063231226136" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1177/01492063231226136</a></li>
+            <li>Camuffo, A., Gambardella, A., Messinese, D., Novelli, E., Paolucci, E. and Spina, C. (2024). A scientific approach to entrepreneurial decision-making: Large-scale replication and extension. <em>Strategic Management Journal</em>, 45(6), 1209&ndash;1237. <a href="https://doi.org/10.1002/smj.3580" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1002/smj.3580</a></li>
+          </ul>
+          <h4 class="text-indigo-200 font-semibold mb-2">Stage 1: Prior experience and knowledge</h4>
+          <ul class="space-y-2 mb-5 text-slate-300 text-sm leading-relaxed">
+            <li>Shane, S. (2000). Prior Knowledge and the Discovery of Entrepreneurial Opportunities. <em>Organization Science</em>, 11(4), 448&ndash;469. <a href="https://doi.org/10.1287/orsc.11.4.448.14602" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1287/orsc.11.4.448.14602</a></li>
+            <li>Dencker, J. C. and Gruber, M. (2015). The effects of opportunities and founder experience on new firm performance. <em>Strategic Management Journal</em>, 36(7), 1035&ndash;1052. <a href="https://doi.org/10.1002/smj.2269" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1002/smj.2269</a></li>
+          </ul>
+          <h4 class="text-indigo-200 font-semibold mb-2">Stage 2: Problem and solution</h4>
+          <ul class="space-y-2 mb-5 text-slate-300 text-sm leading-relaxed">
+            <li>von Hippel, E. and von Krogh, G. (2016). Identifying Viable "Need&ndash;Solution Pairs": Problem Solving Without Problem Formulation. <em>Organization Science</em>, 27(1), 207&ndash;221. <a href="https://doi.org/10.1287/orsc.2015.1023" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1287/orsc.2015.1023</a></li>
+          </ul>
+          <h4 class="text-indigo-200 font-semibold mb-2">Stage 3: Where to Play</h4>
+          <ul class="space-y-2 mb-5 text-slate-300 text-sm leading-relaxed">
+            <li>Gruber, M. and Tal, S. (2017). <em>Where to Play: 3 Steps for Discovering Your Most Valuable Market Opportunities</em>. FT Publishing.</li>
+          </ul>
+          <h4 class="text-indigo-200 font-semibold mb-2">Stage 5: Value capture</h4>
+          <ul class="space-y-2 text-slate-300 text-sm leading-relaxed">
+            <li>Teece, D. J. (1986). Profiting from technological innovation: Implications for integration, collaboration, licensing and public policy. <em>Research Policy</em>, 15(6), 285&ndash;305. <a href="https://doi.org/10.1016/0048-7333(86)90027-2" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1016/0048-7333(86)90027-2</a></li>
+            <li>Teece, D. J. (2010). Business Models, Business Strategy and Innovation. <em>Long Range Planning</em>, 43(2&ndash;3), 172&ndash;194. <a href="https://doi.org/10.1016/j.lrp.2009.07.003" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1016/j.lrp.2009.07.003</a></li>
+            <li>Gans, J. S. and Stern, S. (2003). The product market and the market for "ideas": commercialization strategies for technology entrepreneurs. <em>Research Policy</em>, 32(2), 333&ndash;350. <a href="https://doi.org/10.1016/S0048-7333(02)00103-8" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1016/S0048-7333(02)00103-8</a></li>
+            <li>Marx, M. and Hsu, D. H. (2015). Strategic switchbacks: Dynamic commercialization strategies for technology entrepreneurs. <em>Research Policy</em>, 44(10), 1815&ndash;1826. <a href="https://doi.org/10.1016/j.respol.2015.06.016" class="text-indigo-300 hover:text-white underline" target="_blank" rel="noopener">doi.org/10.1016/j.respol.2015.06.016</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <h2 class="text-2xl font-bold text-white mb-4">The Slingshot in Action</h2>
 
     <p class="text-slate-300 leading-relaxed mb-6">
