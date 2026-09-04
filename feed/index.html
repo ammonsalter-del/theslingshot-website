@@ -331,7 +331,7 @@ function ensureVideo(i){
   const v = document.createElement("video");
   v.className="clip"; v.src = "media/"+c.id+".mp4";
   v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline","");
-  v.preload = "metadata";
+  v.preload = "none";
   v.addEventListener("canplay", ()=> v.classList.add("ready"));
   v.addEventListener("loadedmetadata", ()=> v.classList.add("ready"));
   v.addEventListener("error", ()=> v.remove());
@@ -348,6 +348,7 @@ function activate(i){
   cards.forEach((sec,k)=>{
     const v = sec.querySelector("video");
     if (!v) return;
+    if (k === i || k === i + 1) v.preload = "auto";
     if (k === i){ v.muted = muted; v.play().catch(()=>{}); }
     else if (!v.paused) v.pause();
   });
@@ -406,6 +407,7 @@ cue.addEventListener("click", ()=> setMuted(false));
 let lastTap = 0, tapTimer;
 feed.addEventListener("click", ev=>{
   if (ev.target.closest(".rail,.meta,a,button")) return;
+  if (muted){ setMuted(false); lastTap = Date.now(); return; }
   const now = Date.now();
   if (now - lastTap < 300){
     clearTimeout(tapTimer);
