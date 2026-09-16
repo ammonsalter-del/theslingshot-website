@@ -22,4 +22,4 @@ Three modes serve different cohorts: Seed (forgiving, for first-time players and
 - [About](https://slingshotsim.org/about.html): the research project behind the game, who built it, and how.
 - [Licence](https://slingshotsim.org/licence.html): CC BY-NC-SA 4.0; free for educational use, separate licence for commercial use.
 - [Source code](https://github.com/ammonsalter-del/The-Slingshot-Simulation): the open-source repository.
-- [Archived release](https://doi.org/10.5281/zenodo.20749017): Salter, A., Baruffaldi, S., & Bignone, F. (2026). The Slingshot: An AI Startup Simulation (Version 2.1). Zenodo.
+- [Archived release](https://doi.org/10.5281/zenodo.20749017): Salter, A., Baruffaldi, S., & Bignone, F. (2026). The Slingshot: An AI Startup Simulation (Version 2.2). Zenodo.

@@ -2,7 +2,7 @@
 
 A free, browser-based simulation for teaching entrepreneurship and innovation management. Players run an AI startup through 16 quarters of strategic decisions, navigating funding, hiring, competition, research partnerships, and pivots.
 
-**Version 2.1** | Released September 2026
+**Version 2.2** | Released September 2026
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20749017.svg)](https://doi.org/10.5281/zenodo.20749017)
 
@@ -42,6 +42,17 @@ Most players fail on their first attempt, and that is by design. The game teache
 - **Three Mini-Games**: Conference booth, investor pitch, and demo day, each a business activity experienced rather than described
 - **UK AI Ecosystem Context**: Grounded in the real UK AI landscape, with mini-cases inspired by firms such as Isomorphic Labs, Wayve, Synthesia and Darktrace
 - **Trajectory Benchmarking**: Opt-in, anonymous system comparing your performance against your class and all players, with zero-cost in-class tournaments (no registration, no personal data)
+
+## What's New in Version 2.2
+
+- **The office:** after you commit a quarter, you watch it happen in your office. Your team sit at their desks, go to the kettle, lie on the bean bags and say what they think of your decisions. The room changes as you pass each milestone: a garage, then an office, then a loft.
+- **Day one:** a short opening scene before the first quarter: the founder's welcome, the handshakes, the first complaints.
+- **The postcard:** when a run ends the game draws a postcard of it, one picture of the whole journey, yours to download.
+- **A community project:** a short page before you play says who the game is for: students and educators, in non-profit education and research. Commercial use needs permission.
+- **Pre and post money:** term sheets now show the valuation before and after the round.
+- **Rent:** moving into the office, and later the loft, adds rent to your burn, scaled to the city.
+
+We have also made adjustments so that skilful play is better rewarded.
 
 ## What's New in Version 2.1
 
@@ -98,7 +109,7 @@ If you use this game in teaching or research, please cite:
 
 ```
 Salter, A., Baruffaldi, S., & Bignone, F. (2026). The Slingshot: An AI Startup Simulation
-(Version 2.1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20749017
+(Version 2.2) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20749017
 ```
 
 BibTeX:
