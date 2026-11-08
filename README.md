@@ -2,6 +2,8 @@
 
 A free, open-source startup simulation for teaching entrepreneurship and innovation management, played in the browser. Players run an AI startup through 16 quarters of strategic decisions, navigating funding, hiring, competition, research partnerships, and pivots.
 
+[![The Slingshot on StartupScores](https://startupscores.com/badge/the-slingshot.svg?style=shield&v=combo&theme=dark)](https://startupscores.com/open-source/the-slingshot)
+
 **Version 2.2.1** | Released September 2026
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20749017.svg)](https://doi.org/10.5281/zenodo.20749017)
